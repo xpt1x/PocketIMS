@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-from .exceptions import IncorrectCredentialsError, UIMSInternalError
+#from .exceptions import IncorrectCredentialsError, UIMSInternalError
 
 BASE_URL = "https://uims.cuchd.in"
 AUTHENTICATE_URL = BASE_URL + "/uims/"
@@ -166,3 +166,6 @@ class SessionUIMS:
         # We then return the extracted JSON content
         attendance = json.loads(response.text)["d"]
         return json.loads(attendance)
+
+user = SessionUIMS('UID', 'PASSWORD')
+user.attendance
