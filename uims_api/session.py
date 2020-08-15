@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import json
+import json, urllib.parse
 
 #from .exceptions import IncorrectCredentialsError, UIMSInternalError
 
@@ -94,29 +94,12 @@ class SessionUIMS:
         timetable_url = AUTHENTICATE_URL + ENDPOINTS['timetable']
         response = requests.get(timetable_url, cookies=self.cookies)
         soup = BeautifulSoup(response.text, "html.parser")
-
         viewstate_tag = soup.find("input", {"name":"__VIEWSTATE"})
-        viewstate_gen_tag = soup.find("input", {'name': '__VIEWSTATEGENERATOR'})
-        event_validation_tag = soup.find("input", {'name': '__EVENTVALIDATION'})
-        ctrl_object = soup.find("input", {'name': 'ctl00$ContentPlaceHolder1$ReportViewer1$ctl09$ReportControl$ctl04'})
-        hidden_async_cancel = soup.find("input", {'name': 'ctl00$ContentPlaceHolder1$ReportViewer1$AsyncWait$HiddenCancelField'})
-        report_viewer_toggle = soup.find("input", {"name": 'ctl00$ContentPlaceHolder1$ReportViewer1$ToggleParam$collapse'})
-        report_viewer_collapse = soup.find("input", {"name": 'ctl00$ContentPlaceHolder1$ReportViewer1$ctl07$collapse'})
-
         data = {
             "__VIEWSTATE": viewstate_tag["value"],
-            "__VIEWSTATEGENERATOR": viewstate_gen_tag["value"],
-            "__EVENTVALIDATION": event_validation_tag["value"],
-            '__ASYNCPOST': 'true',
-            # "ctl00$ContentPlaceHolder1$ReportViewer1$ctl09$ReportControl$ctl04": ctrl_object["value"],
-            # 'ctl00$ContentPlaceHolder1$ReportViewer1$AsyncWait$HiddenCancelField' : hidden_async_cancel['value'],
-            # 'ctl00$ContentPlaceHolder1$ReportViewer1$ToggleParam$collapse': report_viewer_toggle['value'],
-            # 'ctl00$ContentPlaceHolder1$ReportViewer1$ctl07$collapse' : report_viewer_collapse['value'],
-            # 'ctl00$ScriptManager1': 'ctl00$ScriptManager1|ctl00$ContentPlaceHolder1$ReportViewer1$ctl09$Reserved_AsyncLoadTarget',
+            '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$ReportViewer1$ctl09$Reserved_AsyncLoadTarget',
         }
-
-        head = {'Content-Type': 'application/x-www-form-urlencoded'}
-        response = requests.post(timetable_url, data=data, cookies=self.cookies, headers=head)
+        response = requests.post(timetable_url, data=data, cookies=self.cookies)
         with open('response.html', 'w') as file:
             file.write(response.text)
 
@@ -167,5 +150,5 @@ class SessionUIMS:
         attendance = json.loads(response.text)["d"]
         return json.loads(attendance)
 
-user = SessionUIMS('UID', 'PASSWORD')
-user.attendance
+user = SessionUIMS('UID', 'PASS')
+user.timetable
