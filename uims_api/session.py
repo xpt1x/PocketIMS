@@ -105,13 +105,15 @@ class SessionUIMS:
         return self._extract_timetable(response)
     
     def _extract_timetable(self, response):
-        report_div_id_block = response.text.find('ReportDivId')
-        start_colon_id = report_div_id_block + response.text[report_div_id_block:].find(':')
-        end_quotation_id = start_colon_id+2 + response.text[start_colon_id+2:].find('"')
+        report_div_block = response.text.find('ReportDivId')
+        start_colon = report_div_block + response.text[report_div_block:].find(':')
+        end_quotation = start_colon+2 + response.text[start_colon+2:].find('"')
 
-        report_div_id = response.text[start_colon_id+2:end_quotation_id]
+        report_div_id = response.text[start_colon+2:end_quotation]
         # more logic required
-        return report_div_id
+        soup = BeautifulSoup(response.text, 'html.parser')
+        div_tag = soup.find('div', {'id': report_div_id})
+        print(div_tag)
 
     def _get_attendance(self):
         # The attendance URL looks like
@@ -161,4 +163,4 @@ class SessionUIMS:
         return json.loads(attendance)
 
 user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
-print(user.timetable)
+user.timetable
