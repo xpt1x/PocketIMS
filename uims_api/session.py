@@ -106,17 +106,18 @@ class SessionUIMS:
         return self._extract_timetable(response)
     
     def _extract_timetable(self, response):
-        report_div_block = response.text.find('ReportCellId')
+        report_div_block = response.text.find('ReportDivId')
         start_colon = report_div_block + response.text[report_div_block:].find(':')
         end_quotation = start_colon+2 + response.text[start_colon+2:].find('"')
 
         report_div_id = response.text[start_colon+2:end_quotation]
-        # print(report_div_id)
-        # more logic required
+        
+        with open('beautyResponse.html', 'w') as file:
+            file.write(HTMLBeautifier.beautify(str(response.text), 2))
         soup = BeautifulSoup(response.text, 'html.parser')
-        content = soup.find('td', {'id': report_div_id})
-        file = open('response.html', 'w')
-        file.write(HTMLBeautifier.beautify(str(content), 2))
+        timetable_report_id = report_div_id[:report_div_id.find('oReportDiv')]
+        span = soup.find('span', {'id': f'{timetable_report_id}growRectangleIdsTag'})
+        print(span)
 
     def _get_attendance(self):
         # The attendance URL looks like
