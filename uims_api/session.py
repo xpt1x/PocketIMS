@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from html5print import HTMLBeautifier
 import json, urllib.parse
 ##### FOR TESTING PURPOSE ###########
 import os
@@ -105,15 +106,17 @@ class SessionUIMS:
         return self._extract_timetable(response)
     
     def _extract_timetable(self, response):
-        report_div_block = response.text.find('ReportDivId')
+        report_div_block = response.text.find('ReportCellId')
         start_colon = report_div_block + response.text[report_div_block:].find(':')
         end_quotation = start_colon+2 + response.text[start_colon+2:].find('"')
 
         report_div_id = response.text[start_colon+2:end_quotation]
+        # print(report_div_id)
         # more logic required
         soup = BeautifulSoup(response.text, 'html.parser')
-        div_tag = soup.find('div', {'id': report_div_id})
-        print(div_tag)
+        content = soup.find('td', {'id': report_div_id})
+        file = open('response.html', 'w')
+        file.write(HTMLBeautifier.beautify(str(content), 2))
 
     def _get_attendance(self):
         # The attendance URL looks like
