@@ -110,6 +110,8 @@ class SessionUIMS:
         end_quotation_id = start_colon_id+2 + response.text[start_colon_id+2:].find('"')
 
         report_div_id = response.text[start_colon_id+2:end_quotation_id]
+        # more logic required
+        return report_div_id
 
     def _get_attendance(self):
         # The attendance URL looks like
@@ -159,4 +161,4 @@ class SessionUIMS:
         return json.loads(attendance)
 
 user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
-user.timetable
+print(user.timetable)
