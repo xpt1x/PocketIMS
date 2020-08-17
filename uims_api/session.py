@@ -100,8 +100,14 @@ class SessionUIMS:
             '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$ReportViewer1$ctl09$Reserved_AsyncLoadTarget',
         }
         response = requests.post(timetable_url, data=data, cookies=self.cookies)
-        with open('response.html', 'w') as file:
-            file.write(response.text)
+        return self._extract_timetable(response)
+    
+    def _extract_timetable(self, response):
+        report_div_id_block = response.text.find('ReportDivId')
+        start_colon_id = report_div_id_block + response.text[report_div_id_block:].find(':')
+        end_quotation_id = start_colon_id+2 + response.text[start_colon_id+2:].find('"')
+
+        report_div_id = response.text[start_colon_id+2:end_quotation_id]
 
     def _get_attendance(self):
         # The attendance URL looks like
@@ -150,5 +156,5 @@ class SessionUIMS:
         attendance = json.loads(response.text)["d"]
         return json.loads(attendance)
 
-user = SessionUIMS('UID', 'PASS')
+user = SessionUIMS('', '')
 user.timetable
