@@ -1,8 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import json, urllib.parse
-
+##### FOR TESTING PURPOSE ###########
+import os
 #from .exceptions import IncorrectCredentialsError, UIMSInternalError
+##### FOR TESTING PURPOSE ###########
 
 BASE_URL = "https://uims.cuchd.in"
 AUTHENTICATE_URL = BASE_URL + "/uims/"
@@ -156,5 +158,5 @@ class SessionUIMS:
         attendance = json.loads(response.text)["d"]
         return json.loads(attendance)
 
-user = SessionUIMS('', '')
+user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 user.timetable
