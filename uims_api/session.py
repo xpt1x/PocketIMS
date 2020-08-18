@@ -109,15 +109,19 @@ class SessionUIMS:
         report_div_block = response.text.find('ReportDivId')
         start_colon = report_div_block + response.text[report_div_block:].find(':')
         end_quotation = start_colon+2 + response.text[start_colon+2:].find('"')
-
         report_div_id = response.text[start_colon+2:end_quotation]
-        
-        with open('beautyResponse.html', 'w') as file:
-            file.write(HTMLBeautifier.beautify(str(response.text), 2))
+
         soup = BeautifulSoup(response.text, 'html.parser')
-        timetable_report_id = report_div_id[:report_div_id.find('oReportDiv')]
-        span = soup.find('span', {'id': f'{timetable_report_id}growRectangleIdsTag'})
-        print(span)
+        nearest_div_id = report_div_id[:report_div_id.find('oReportDiv')] + '5iS0xB_gr'
+        div_tag = soup.find('div', {'id': nearest_div_id})
+        ### TESTING
+        with open('beautifyDiv.html', 'w') as file:
+            file.write(HTMLBeautifier.beautify(str(div_tag), 1)) 
+        ############
+        table = div_tag.contents[0].contents
+        # table[3] represents mapping of course and course code
+        # table[1] represents actual table(s) for timetable
+        print(table[1])
 
     def _get_attendance(self):
         # The attendance URL looks like
