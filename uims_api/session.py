@@ -121,21 +121,42 @@ class SessionUIMS:
         
         ## Now extracting day wise timings and subjects from table[1]
 
-        data = []
         table_body = table[1].contents[0].find('table')
         # getting rows with actual data only (1st row will be neglected as it doesnt have valign arg)
         table_body_rows = table_body.find_all('tr', {'valign': 'top'})
 
+        timetable = {}
+        ttlist = []
+        isTopRow = True
         for row in table_body_rows:
-            # using regex to match all tds with some class
             tds = row.find_all('td', {'class': re.compile('.*?')})
+            if(isTopRow):
+                isTopRow = not isTopRow
+                for td in tds:
+                    td_div = td.find('div')
+                    if td_div:
+                        ttlist.append(td_div.get_text())
+                    else:
+                        ttlist.append(None)
+                ttlist = ttlist[1:len(ttlist)]
+                for elem in ttlist:
+                    timetable[elem] = {}
+                continue
+            # using regex to match all tds with some class
+            data = []
             for td in tds:
                 td_div = td.find('div')
                 if td_div:
                     data.append(td_div.get_text())
                 else:
                     data.append(None)
-        print(data)
+            timing = data[0]
+            data = data[1:len(data)]
+            for i in range(0, len(data)):
+                timetable[ttlist[i]][timing] = data[i]
+        # print(timetable)       
+        with open('timetable.json', 'w') as file:
+            file.write(json.dumps(timetable, indent=2))
         ## For mapping of course and course codes
         mapping_table = table[3].contents[0].find('table')
          #print(mapping_table)
