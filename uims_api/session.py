@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from html5print import HTMLBeautifier
 import json, urllib.parse
 ##### FOR TESTING PURPOSE ###########
-import os
+import os, re
 #from .exceptions import IncorrectCredentialsError, UIMSInternalError
 ##### FOR TESTING PURPOSE ###########
 
@@ -114,14 +114,28 @@ class SessionUIMS:
         soup = BeautifulSoup(response.text, 'html.parser')
         nearest_div_id = report_div_id[:report_div_id.find('oReportDiv')] + '5iS0xB_gr'
         div_tag = soup.find('div', {'id': nearest_div_id})
-        ### TESTING
-        with open('beautifyDiv.html', 'w') as file:
-            file.write(HTMLBeautifier.beautify(str(div_tag), 1)) 
-        ############
         table = div_tag.contents[0].contents
+
         # table[3] represents mapping of course and course code
         # table[1] represents actual table(s) for timetable
+        
+        ## Now extracting day wise timings and subjects from table[1]
 
+        data = []
+        table_body = table[1].contents[0].find('table')
+        # getting rows with actual data only (1st row will be neglected as it doesnt have valign arg)
+        table_body_rows = table_body.find_all('tr', {'valign': 'top'})
+
+        for row in table_body_rows:
+            # using regex to match all tds with some class
+            tds = row.find_all('td', {'class': re.compile('.*?')})
+            for td in tds:
+                td_div = td.find('div')
+                if td_div:
+                    data.append(td_div.get_text())
+                else:
+                    data.append(None)
+        print(data)
         ## For mapping of course and course codes
         mapping_table = table[3].contents[0].find('table')
         mp_table_rows = mapping_table.find_all('tr')
@@ -134,7 +148,7 @@ class SessionUIMS:
             if course_code_div != None and course_code_div.get_text() != 'Course Code':
                 course_codes[course_code_div.get_text()] = course_name_div.get_text()
 
-        print(course_codes)
+        #print(course_codes)
 
     def _get_attendance(self):
         # The attendance URL looks like
