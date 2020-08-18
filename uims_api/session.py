@@ -127,11 +127,13 @@ class SessionUIMS:
 
         timetable = {}
         ttlist = []
-        isTopRow = True
+        is_top_row = True
         for row in table_body_rows:
+            # using regex to match all tds with some class
             tds = row.find_all('td', {'class': re.compile('.*?')})
-            if(isTopRow):
-                isTopRow = not isTopRow
+            if is_top_row:
+                # Creating keys in dict
+                is_top_row = False
                 for td in tds:
                     td_div = td.find('div')
                     if td_div:
@@ -142,7 +144,7 @@ class SessionUIMS:
                 for elem in ttlist:
                     timetable[elem] = {}
                 continue
-            # using regex to match all tds with some class
+            
             data = []
             for td in tds:
                 td_div = td.find('div')
@@ -152,9 +154,9 @@ class SessionUIMS:
                     data.append(None)
             timing = data[0]
             data = data[1:len(data)]
-            for i in range(0, len(data)):
+            for i in range(len(data)):
                 timetable[ttlist[i]][timing] = data[i]
-        # print(timetable)       
+      
         with open('timetable.json', 'w') as file:
             file.write(json.dumps(timetable, indent=2))
         ## For mapping of course and course codes
