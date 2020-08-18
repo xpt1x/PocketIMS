@@ -114,8 +114,8 @@ class SessionUIMS:
         soup = BeautifulSoup(response.text, 'html.parser')
         nearest_div_id = report_div_id[:report_div_id.find('oReportDiv')] + '5iS0xB_gr'
         div_tag = soup.find('div', {'id': nearest_div_id})
-        table = div_tag.contents[0].contents
 
+        table = div_tag.contents[0].contents
         # table[3] represents mapping of course and course code
         # table[1] represents actual table(s) for timetable
         
@@ -138,6 +138,7 @@ class SessionUIMS:
         print(data)
         ## For mapping of course and course codes
         mapping_table = table[3].contents[0].find('table')
+         #print(mapping_table)
         mp_table_rows = mapping_table.find_all('tr')
         course_codes = dict()
         for row in mp_table_rows:
