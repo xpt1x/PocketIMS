@@ -103,7 +103,7 @@ class SessionUIMS:
             '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$ReportViewer1$ctl09$Reserved_AsyncLoadTarget',
         }
         response = requests.post(timetable_url, data=data, cookies=self.cookies)
-        return self._extract_timetable(response)
+        self._extract_timetable(response)
     
     def _extract_timetable(self, response):
         report_div_block = response.text.find('ReportDivId')
@@ -121,7 +121,20 @@ class SessionUIMS:
         table = div_tag.contents[0].contents
         # table[3] represents mapping of course and course code
         # table[1] represents actual table(s) for timetable
-        print(table[1])
+
+        ## For mapping of course and course codes
+        mapping_table = table[3].contents[0].find('table')
+        mp_table_rows = mapping_table.find_all('tr')
+        course_codes = dict()
+        for row in mp_table_rows:
+            tds = row.find_all('td')
+            course_code_div = tds[0].find('div')
+            course_name_div = tds[1].find('div')
+
+            if course_code_div != None and course_code_div.get_text() != 'Course Code':
+                course_codes[course_code_div.get_text()] = course_name_div.get_text()
+
+        print(course_codes)
 
     def _get_attendance(self):
         # The attendance URL looks like
