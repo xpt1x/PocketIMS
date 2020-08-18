@@ -125,22 +125,24 @@ class SessionUIMS:
         # getting rows with actual data only (1st row will be neglected as it doesnt have valign arg)
         table_body_rows = table_body.find_all('tr', {'valign': 'top'})
 
-        timetable = {
-            'Sun':{},
-            'Mon':{},
-            'Tue':{},
-            'Wed':{},
-            'Thu':{},
-            'Fri':{}
-        }
-        ttlist = ['Sun','Mon','Tue','Wed','Thu','Fri']
+        timetable = {}
+        ttlist = []
         isTopRow = True
         for row in table_body_rows:
+            tds = row.find_all('td', {'class': re.compile('.*?')})
             if(isTopRow):
                 isTopRow = not isTopRow
+                for td in tds:
+                    td_div = td.find('div')
+                    if td_div:
+                        ttlist.append(td_div.get_text())
+                    else:
+                        ttlist.append(None)
+                ttlist = ttlist[1:len(ttlist)]
+                for elem in ttlist:
+                    timetable[elem] = {}
                 continue
             # using regex to match all tds with some class
-            tds = row.find_all('td', {'class': re.compile('.*?')})
             data = []
             for td in tds:
                 td_div = td.find('div')
@@ -149,8 +151,9 @@ class SessionUIMS:
                 else:
                     data.append(None)
             timing = data[0]
-            for i in range(1, 7):
-                timetable[ttlist[i-1]][timing] = data[i]
+            data = data[1:len(data)]
+            for i in range(0, len(data)):
+                timetable[ttlist[i]][timing] = data[i]
         # print(timetable)       
         with open('timetable.json', 'w') as file:
             file.write(json.dumps(timetable, indent=2))
