@@ -286,11 +286,9 @@ class SessionUIMS:
         parsable_html = self.parasable_form(response.text)
         soup = BeautifulSoup(parsable_html, 'html.parser')
         
-        div_main_announcement = soup.find('div', {'id':'div_Announcements'})
         annoucement_divs = soup.find_all('div', {'class': 'announcement-thumbnail'})
         ## Just for testing
-        message = self.extract_message(annoucement_divs[0], headers)
-        print(message)
+        return self.extract_message(annoucement_divs, headers)
     
     def parasable_form(self, html):
         html = html.replace('\\', '')
@@ -304,53 +302,44 @@ class SessionUIMS:
         html = html.replace('<br/>', '\n')
         return html
     
-    def extract_message(self, message, headers):
-        msg_title = message.find('h2').get_text()
-        #msg_date = message.find('span', {'class':'post-dd-tt'}).get_text().strip()
-        msg_date = message.find('div', {'class': 'ann-date'}).contents[1].contents[1].get_text()
-        msg_body = message.find('p').get_text().strip()
-        msg_uploader = message.find('span', {'class':'uploded-user'}).get_text()
+    def extract_message(self, annoucement_divs, headers):
+        announcements = []
+        for announce_div in annoucement_divs:
+            msg_title = announce_div.find('h2').get_text()
+            msg_date = announce_div.find('div', {'class': 'ann-date'}).contents[1].contents[1].get_text()
+            msg_body = announce_div.find('p').get_text().strip()
+            msg_uploader = announce_div.find('small').get_text()
 
-        try:
-            msg_image = []
-            images = message.find('p').find_all('img')
-            for image in images:
-                b64_data = image['src'].split(',')[1]
-                b64_decoded = b64_data.decode('base64')
-                memory_image = io.BytesIO(b64_decoded)
-                msg_image.append(memory_image)
-        except:
-            pass
+            try:
+                msg_attachment = []
+                attachment_divs = announce_div.find_all('div', {'class':'attachment'})
+                for attachment in attachment_divs:
+                    attachment_name = attachment.find('a').get_text()
+                    attachment_link = attachment.find('a')['href']
+                    absolute_link = AUTHENTICATE_URL + attachment_link[3:]
+                    msg_attachment.append((attachment_name, absolute_link))
+                    # response = requests.get(absolute_link, headers=headers)
+                    # memory_attachment = io.BytesIO(response.content)
+                    # msg_attachment.append((attachment_name, memory_attachment))
+            except:
+                pass
 
-        try:
-            msg_attachment = []
-            attachment_names = message.find_all('div', {'class':'aQA'})
-            attachments = message.find_all('vijay', {'class':'download_button'})
-            for n, attachment in enumerate(attachments):
-                attachment_name = attachment_names[n].find('span').get_text().replace(' ', '_')
-                attachment_link = attachment.find('a')['href']
-                absolute_link = 'https://uims.cuchd.in/UIMS/' + attachment_link[3:]
-                response = requests.get(absolute_link, headers=headers)
-                memory_attachment = io.BytesIO(response.content)
-                msg_attachment.append((attachment_name, memory_attachment))
-        except:
-            pass
+            msg_dict = { 'title'      : msg_title,
+                        'date'       : msg_date,
+                        'body'       : msg_body,
+                        'uploader'   : msg_uploader,
+                        'attachment' : msg_attachment }
+            announcements.append(msg_dict)
 
-        msg_dict = { 'title'      : msg_title,
-                    'date'       : msg_date,
-                    'body'       : msg_body,
-                    'uploader'   : msg_uploader,
-                    'image'      : msg_image,
-                    'attachment' : msg_attachment }
-
-        return msg_dict
+        return announcements
 
 user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 # print(user.timetable)
 # user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 # user.attendance
 # user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
-print(user.annoucements)
+with open('announcements.json', 'w') as file:
+    file.write(json.dumps(user.annoucements, indent=2))
 ending = time.time()
 print('-'*30)
 print(f'Execution Time: {ending-start}')
