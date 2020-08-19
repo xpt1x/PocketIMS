@@ -278,10 +278,9 @@ class SessionUIMS:
 
         return return_subject
 
-    @property
-    def annoucements(self):
+    def annoucements(self, page=1):
         annoucement_url = AUTHENTICATE_URL + ENDPOINTS['Announcements']
-        data = "{Category:'ALL', PageNumber:'1', FilterText:''}"
+        data = "{Category:'ALL', PageNumber:'" + str(page) + "', FilterText:''}"
         response = requests.post(annoucement_url, cookies=self.cookies, headers=headers, data=data)
         parsable_html = self.parasable_form(response.text)
         soup = BeautifulSoup(parsable_html, 'html.parser')
@@ -339,7 +338,7 @@ user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 # user.attendance
 # user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 with open('announcements.json', 'w') as file:
-    file.write(json.dumps(user.annoucements, indent=2))
+    file.write(json.dumps(user.annoucements(), indent=2))
 ending = time.time()
 print('-'*30)
 print(f'Execution Time: {ending-start}')
