@@ -210,7 +210,8 @@ class SessionUIMS:
         exp_start = subject.find("By ")
         exp_end = subject.find("(")
         teacher_name = subject[exp_start+3:exp_end]
-        if(teacher_name.isalpha()):
+        pattern = re.compile("^[a-zA-Z ]*$")
+        if(pattern.match(teacher_name)):
             return_subject['teacher'] = teacher_name
         else:
             return_subject['teacher'] = None
