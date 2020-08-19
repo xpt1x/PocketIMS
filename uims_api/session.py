@@ -210,7 +210,10 @@ class SessionUIMS:
         exp_start = subject.find("By ")
         exp_end = subject.find("(")
         teacher_name = subject[exp_start+3:exp_end]
-        return_subject['teacher'] = teacher_name
+        if(teacher_name.isalpha()):
+            return_subject['teacher'] = teacher_name
+        else:
+            return_subject['teacher'] = None
 
         return return_subject
     
