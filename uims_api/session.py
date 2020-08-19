@@ -6,6 +6,7 @@ import os
 import re
 from html5print import HTMLBeautifier
 import time
+import io
 #from .exceptions import IncorrectCredentialsError, UIMSInternalError
 
 start = time.time()
@@ -16,7 +17,8 @@ AUTHENTICATE_URL = BASE_URL + "/uims/"
 
 ENDPOINTS = {
     "Attendance": "frmStudentCourseWiseAttendanceSummary.aspx",
-    "timetable": "frmMyTimeTable.aspx"
+    "Timetable": "frmMyTimeTable.aspx",
+    "Announcements" : "StaffHome.aspx/DisplayAnnouncements"
 }
 ERROR_HEAD = 'Whoops, Something broke!'
 headers = {'Content-Type': 'application/json'}
@@ -87,6 +89,53 @@ class SessionUIMS:
 
         return self._attendance
 
+    def _get_attendance(self):
+        # The attendance URL looks like
+        # https://uims.cuchd.in/UIMS/frmStudentCourseWiseAttendanceSummary.aspx
+        attendance_url = AUTHENTICATE_URL + ENDPOINTS["Attendance"]
+
+        # We make an authenticated GET request (by passing the login cookies) to fetch the
+        # contents of the attendance page
+        # These cookies contain encoded information about the current logged in UID whose
+        # attendance information is to be fetched
+        response = requests.get(attendance_url, cookies=self.cookies)
+        # Checking for error in response as status code returned is 200
+        if(response.text.find(ERROR_HEAD) != -1):
+            raise UIMSInternalError('UIMS internal error occured')
+        # Getting current session id from response
+        session_block = response.text.find('CurrentSession')
+        session_block_origin = session_block + response.text[session_block:].find('(')
+        session_block_end = session_block + response.text[session_block:].find(')')
+        current_session_id = response.text[session_block_origin + 1:session_block_end]
+
+        if not self._sessionId:
+            self._sessionId = current_session_id
+        # We now scrape for the uniquely generated report ID for the current UIMS session
+        # in the above returned response
+
+        # I have no idea why and what purpose this report ID serves, but this field needed to
+        # fetch the attendance in JSON format in the next step as you'll see, otherwise the
+        # server will return an error response
+        js_report_block = response.text.find("getReport")
+        initial_quotation_mark = js_report_block + response.text[js_report_block:].find("'")
+        ending_quotation_mark = initial_quotation_mark + response.text[initial_quotation_mark+1:].find("'")
+        report_id = response.text[initial_quotation_mark + 1: ending_quotation_mark+1]
+
+        if not self._reportId:
+            self._reportId = report_id
+        # On intercepting the requests made by my browser, I found that this URL returns the
+        # attendance information in JSON format
+        report_url = attendance_url + "/GetReport"
+
+        # This attendance information in JSON format is exactly what we need, and it is possible
+        # to replicate the web-browser intercepted request using python requests by passing
+        # the following fields
+        data = "{UID:'" + report_id + "',Session:'" + current_session_id + "'}"
+        response = requests.post(report_url, headers=headers, data=data)
+        # We then return the extracted JSON content
+        attendance = json.loads(response.text)["d"]
+        return json.loads(attendance)
+
     @property
     def full_attendance(self):
         if not self._full_attendance:
@@ -116,7 +165,7 @@ class SessionUIMS:
         return self._timetable
 
     def _get_timetable(self):
-        timetable_url = AUTHENTICATE_URL + ENDPOINTS['timetable']
+        timetable_url = AUTHENTICATE_URL + ENDPOINTS['Timetable']
         response = requests.get(timetable_url, cookies=self.cookies)
         soup = BeautifulSoup(response.text, "html.parser")
         viewstate_tag = soup.find("input", {"name": "__VIEWSTATE"})
@@ -229,60 +278,79 @@ class SessionUIMS:
 
         return return_subject
 
-    def _get_attendance(self):
-        # The attendance URL looks like
-        # https://uims.cuchd.in/UIMS/frmStudentCourseWiseAttendanceSummary.aspx
-        attendance_url = AUTHENTICATE_URL + ENDPOINTS["Attendance"]
+    @property
+    def annoucements(self):
+        annoucement_url = AUTHENTICATE_URL + ENDPOINTS['Announcements']
+        data = "{Category:'ALL', PageNumber:'1', FilterText:''}"
+        response = requests.post(annoucement_url, cookies=self.cookies, headers=headers, data=data)
+        parsable_html = self.parasable_form(response.text)
+        soup = BeautifulSoup(parsable_html, 'html.parser')
+        
+        div_main_announcement = soup.find('div', {'id':'div_Announcements'})
+        annoucement_divs = soup.find_all('div', {'class': 'announcement-thumbnail'})
+        ## Just for testing
+        message = self.extract_message(annoucement_divs[0], headers)
+        print(message)
+    
+    def parasable_form(self, html):
+        html = html.replace('\\', '')
+        html = html.replace('u003c', '<')
+        html = html.replace('u003e', '>')
+        html = html.replace('u0026nbsp;', ' ')
+        html = html.replace('u0026amp;', '&')
+        html = html.replace('u0026middot;', '-')
+        html = html.replace('u0027', "'")
+        html = html.replace('u0026', '&')
+        html = html.replace('<br/>', '\n')
+        return html
+    
+    def extract_message(self, message, headers):
+        msg_title = message.find('h2').get_text()
+        #msg_date = message.find('span', {'class':'post-dd-tt'}).get_text().strip()
+        msg_date = message.find('div', {'class': 'ann-date'}).contents[1].contents[1].get_text()
+        msg_body = message.find('p').get_text().strip()
+        msg_uploader = message.find('span', {'class':'uploded-user'}).get_text()
 
-        # We make an authenticated GET request (by passing the login cookies) to fetch the
-        # contents of the attendance page
-        # These cookies contain encoded information about the current logged in UID whose
-        # attendance information is to be fetched
-        response = requests.get(attendance_url, cookies=self.cookies)
-        # Checking for error in response as status code returned is 200
-        if(response.text.find(ERROR_HEAD) != -1):
-            raise UIMSInternalError('UIMS internal error occured')
-        # Getting current session id from response
-        session_block = response.text.find('CurrentSession')
-        session_block_origin = session_block + response.text[session_block:].find('(')
-        session_block_end = session_block + response.text[session_block:].find(')')
-        current_session_id = response.text[session_block_origin + 1:session_block_end]
+        try:
+            msg_image = []
+            images = message.find('p').find_all('img')
+            for image in images:
+                b64_data = image['src'].split(',')[1]
+                b64_decoded = b64_data.decode('base64')
+                memory_image = io.BytesIO(b64_decoded)
+                msg_image.append(memory_image)
+        except:
+            pass
 
-        if not self._sessionId:
-            self._sessionId = current_session_id
-        # We now scrape for the uniquely generated report ID for the current UIMS session
-        # in the above returned response
+        try:
+            msg_attachment = []
+            attachment_names = message.find_all('div', {'class':'aQA'})
+            attachments = message.find_all('vijay', {'class':'download_button'})
+            for n, attachment in enumerate(attachments):
+                attachment_name = attachment_names[n].find('span').get_text().replace(' ', '_')
+                attachment_link = attachment.find('a')['href']
+                absolute_link = 'https://uims.cuchd.in/UIMS/' + attachment_link[3:]
+                response = requests.get(absolute_link, headers=headers)
+                memory_attachment = io.BytesIO(response.content)
+                msg_attachment.append((attachment_name, memory_attachment))
+        except:
+            pass
 
-        # I have no idea why and what purpose this report ID serves, but this field needed to
-        # fetch the attendance in JSON format in the next step as you'll see, otherwise the
-        # server will return an error response
-        js_report_block = response.text.find("getReport")
-        initial_quotation_mark = js_report_block + response.text[js_report_block:].find("'")
-        ending_quotation_mark = initial_quotation_mark + response.text[initial_quotation_mark+1:].find("'")
-        report_id = response.text[initial_quotation_mark + 1: ending_quotation_mark+1]
+        msg_dict = { 'title'      : msg_title,
+                    'date'       : msg_date,
+                    'body'       : msg_body,
+                    'uploader'   : msg_uploader,
+                    'image'      : msg_image,
+                    'attachment' : msg_attachment }
 
-        if not self._reportId:
-            self._reportId = report_id
-        # On intercepting the requests made by my browser, I found that this URL returns the
-        # attendance information in JSON format
-        report_url = attendance_url + "/GetReport"
-
-        # This attendance information in JSON format is exactly what we need, and it is possible
-        # to replicate the web-browser intercepted request using python requests by passing
-        # the following fields
-        data = "{UID:'" + report_id + "',Session:'" + current_session_id + "'}"
-        response = requests.post(report_url, headers=headers, data=data)
-        # We then return the extracted JSON content
-        attendance = json.loads(response.text)["d"]
-        return json.loads(attendance)
-
+        return msg_dict
 
 user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 # print(user.timetable)
 # user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 # user.attendance
 # user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
-print(user.timetable)
+print(user.annoucements)
 ending = time.time()
 print('-'*30)
 print(f'Execution Time: {ending-start}')
