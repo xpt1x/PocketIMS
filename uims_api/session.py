@@ -106,7 +106,7 @@ class SessionUIMS:
             '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$ReportViewer1$ctl09$Reserved_AsyncLoadTarget',
         }
         response = requests.post(timetable_url, data=data, cookies=self.cookies)
-        self._extract_timetable(response)
+        return self._extract_timetable(response)
     
     def _extract_timetable(self, response):
         report_div_block = response.text.find('ReportDivId')
@@ -162,14 +162,12 @@ class SessionUIMS:
                 td_div = td.find('div')
                 data.append(td_div.get_text() if td_div else None)
 
-            timing = data[0]
-            timing = timing.replace(" ", "")
+            timing = data[0].replace(" ", "")
             data = data[1:len(data)]
             for i in range(len(data)):
                 timetable[ttlist[i]][timing] = self.parse_timetable_subject(data[i], course_codes)
-      
-        with open('timetable.json', 'w') as file:
-            file.write(json.dumps(timetable, indent=2))
+
+        return timetable
         
     def parse_timetable_subject(self, subject, course_codes):
         # For Reference
@@ -260,7 +258,7 @@ class SessionUIMS:
         return json.loads(attendance)
 
 user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
-user.timetable
+print(user.timetable)
 # user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 # user.attendance
 # user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
