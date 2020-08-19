@@ -163,6 +163,7 @@ class SessionUIMS:
                 data.append(td_div.get_text() if td_div else None)
 
             timing = data[0]
+            timing = timing.replace(" ", "")
             data = data[1:len(data)]
             for i in range(len(data)):
                 timetable[ttlist[i]][timing] = self.parse_timetable_subject(data[i], course_codes)
