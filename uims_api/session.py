@@ -4,7 +4,10 @@ import json, urllib.parse
 ##### FOR TESTING PURPOSE ###########
 import os, re
 from html5print import HTMLBeautifier
+import time
 #from .exceptions import IncorrectCredentialsError, UIMSInternalError
+
+start = time.time()
 ##### FOR TESTING PURPOSE ###########
 
 BASE_URL = "https://uims.cuchd.in"
@@ -267,3 +270,9 @@ class SessionUIMS:
 
 user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 user.timetable
+# user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
+# user.attendance
+# user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
+# user.full_attendance
+ending = time.time()
+print(ending-start)
