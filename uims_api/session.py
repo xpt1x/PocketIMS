@@ -131,8 +131,7 @@ class SessionUIMS:
             course_name_div = tds[1].find('div')
 
             if course_code_div != None and course_code_div.get_text() != 'Course Code':
-                course_codes[course_code_div.get_text(
-                )] = course_name_div.get_text()
+                course_codes[course_code_div.get_text()] = course_name_div.get_text()
         
         ## Now extracting day wise timings and subjects from table[1]
         table_body = table[1].contents[0].find('table')
@@ -146,14 +145,10 @@ class SessionUIMS:
             # using regex to match all tds with some class
             tds = row.find_all('td', {'class': re.compile('.*?')})
             if is_top_row:
-                # Creating keys in dict
                 is_top_row = False
                 for td in tds:
                     td_div = td.find('div')
-                    if td_div:
-                        ttlist.append(td_div.get_text())
-                    else:
-                        ttlist.append(None)
+                    ttlist.append(td_div.get_text() if td_div else None)
                 ttlist = ttlist[1:len(ttlist)]
                 for elem in ttlist:
                     timetable[elem] = {}
@@ -162,10 +157,8 @@ class SessionUIMS:
             data = []
             for td in tds:
                 td_div = td.find('div')
-                if td_div:
-                    data.append(td_div.get_text())
-                else:
-                    data.append(None)
+                data.append(td_div.get_text() if td_div else None)
+
             timing = data[0]
             data = data[1:len(data)]
             for i in range(len(data)):
@@ -211,10 +204,7 @@ class SessionUIMS:
         exp_end = subject.find("(")
         teacher_name = subject[exp_start+3:exp_end]
         pattern = re.compile("^[a-zA-Z ]*$")
-        if(pattern.match(teacher_name)):
-            return_subject['teacher'] = teacher_name
-        else:
-            return_subject['teacher'] = None
+        return_subject['teacher'] = teacher_name if pattern.match(teacher_name) else None
 
         return return_subject
     
