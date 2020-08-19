@@ -1,9 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-from html5print import HTMLBeautifier
 import json, urllib.parse
 ##### FOR TESTING PURPOSE ###########
 import os, re
+from html5print import HTMLBeautifier
 #from .exceptions import IncorrectCredentialsError, UIMSInternalError
 ##### FOR TESTING PURPOSE ###########
 
@@ -118,9 +118,23 @@ class SessionUIMS:
         table = div_tag.contents[0].contents
         # table[3] represents mapping of course and course code
         # table[1] represents actual table(s) for timetable
+
+        ## For mapping of course and course codes
+        ## Required in the next step
+        mapping_table = table[3].contents[0].find('table')
+        #print(mapping_table)
+        mp_table_rows = mapping_table.find_all('tr')
+        course_codes = dict()
+        for row in mp_table_rows:
+            tds = row.find_all('td')
+            course_code_div = tds[0].find('div')
+            course_name_div = tds[1].find('div')
+
+            if course_code_div != None and course_code_div.get_text() != 'Course Code':
+                course_codes[course_code_div.get_text(
+                )] = course_name_div.get_text()
         
         ## Now extracting day wise timings and subjects from table[1]
-
         table_body = table[1].contents[0].find('table')
         # getting rows with actual data only (1st row will be neglected as it doesnt have valign arg)
         table_body_rows = table_body.find_all('tr', {'valign': 'top'})
@@ -155,25 +169,51 @@ class SessionUIMS:
             timing = data[0]
             data = data[1:len(data)]
             for i in range(len(data)):
-                timetable[ttlist[i]][timing] = data[i]
+                timetable[ttlist[i]][timing] = self.parse_timetable_subject(data[i], course_codes)
       
         with open('timetable.json', 'w') as file:
             file.write(json.dumps(timetable, indent=2))
-        ## For mapping of course and course codes
-        mapping_table = table[3].contents[0].find('table')
-         #print(mapping_table)
-        mp_table_rows = mapping_table.find_all('tr')
-        course_codes = dict()
-        for row in mp_table_rows:
-            tds = row.find_all('td')
-            course_code_div = tds[0].find('div')
-            course_name_div = tds[1].find('div')
+        
+    def parse_timetable_subject(self, subject, course_codes):
+        # For Reference
+        # "CST-302:L:: Gp-All: By Jagandeep Singh(E4678) at 1-3",
+        # "CST-328:L:: Gp-All: By Amritpal Singh(E5159) at 5-11",
+        if(subject == None):
+            return None
+        return_subject = {}
 
-            if course_code_div != None and course_code_div.get_text() != 'Course Code':
-                course_codes[course_code_div.get_text()] = course_name_div.get_text()
+        # Finding Subject Name
+        sub_code_end = subject.find(":")
+        sub_code = subject[0:sub_code_end]
+        subject = subject[sub_code_end+1:len(subject)]
+        return_subject['title'] = str(course_codes[sub_code]).upper()
+        
+        #Finding Type of Lecture
+        session_type = subject[0]
+        subject = subject[1: len(subject)]
+        if(session_type == "L"):
+            return_subject['type'] = "Lecture"
+        elif (session_type == "P"):
+            return_subject['type'] = "Practical"
+        else:
+            return_subject['type'] = "Tutorial"
+        
+        #Finding Group Type
+        gp_start = subject.find("Gp-")
+        subject = subject[gp_start: len(subject)]
+        ending_colon = subject.find(":")
+        group_type = subject[gp_start:ending_colon]
+        return_subject['group'] = group_type
+        subject = subject[ending_colon+1 : len(subject)]
 
-        #print(course_codes)
+        #Finding Teacher's Name
+        exp_start = subject.find("By ")
+        exp_end = subject.find("(")
+        teacher_name = subject[exp_start+3:exp_end]
+        return_subject['teacher'] = teacher_name
 
+        return return_subject
+    
     def _get_attendance(self):
         # The attendance URL looks like
         # https://uims.cuchd.in/UIMS/frmStudentCourseWiseAttendanceSummary.aspx
