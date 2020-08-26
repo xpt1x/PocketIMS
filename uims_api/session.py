@@ -2,11 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 ##### FOR TESTING PURPOSE ###########
-import os
-import re
-from html5print import HTMLBeautifier
-import time
-import io
+import os, re, time
 #from .exceptions import IncorrectCredentialsError, UIMSInternalError
 
 start = time.time()
@@ -193,7 +189,6 @@ class SessionUIMS:
         # For mapping of course and course codes
         # Required in the next step
         mapping_table = table[3].contents[0].find('table')
-        # print(mapping_table)
         mp_table_rows = mapping_table.find_all('tr')
         course_codes = dict()
         for row in mp_table_rows:
@@ -220,7 +215,7 @@ class SessionUIMS:
                 for td in tds:
                     td_div = td.find('div')
                     ttlist.append(td_div.get_text() if td_div else None)
-                ttlist = ttlist[1:len(ttlist)]
+                ttlist = ttlist[1:]
                 for elem in ttlist:
                     timetable[elem] = {}
                 continue
@@ -231,7 +226,7 @@ class SessionUIMS:
                 data.append(td_div.get_text() if td_div else None)
 
             timing = data[0].replace(" ", "")
-            data = data[1:len(data)]
+            data = data[1:]
             for i in range(len(data)):
                 timetable[ttlist[i]][timing] = self._parse_timetable_subject(data[i], course_codes)
 
@@ -248,7 +243,7 @@ class SessionUIMS:
         # Finding Subject Name
         sub_code_end = subject.find(":")
         sub_code = subject[0:sub_code_end]
-        subject = subject[sub_code_end+1:len(subject)]
+        subject = subject[sub_code_end+1:]
         return_subject['title'] = str(course_codes[sub_code]).upper()
 
         # Finding Type of Lecture
@@ -263,11 +258,11 @@ class SessionUIMS:
 
         # Finding Group Type
         gp_start = subject.find("Gp-")
-        subject = subject[gp_start: len(subject)]
+        subject = subject[gp_start:]
         ending_colon = subject.find(":")
         group_type = subject[gp_start:ending_colon]
         return_subject['group'] = group_type
-        subject = subject[ending_colon+1: len(subject)]
+        subject = subject[ending_colon+1:]
 
         # Finding Teacher's Name
         exp_start = subject.find("By ")
@@ -290,7 +285,8 @@ class SessionUIMS:
         return self.extract_message(annoucement_divs, headers)
     
     def parasable_form(self, html):
-        html = html.replace('\\', '')
+        
+        html = html.replace('\\n', '\n').replace('\\t', '\t')
         html = html.replace('u003c', '<')
         html = html.replace('u003e', '>')
         html = html.replace('u0026nbsp;', ' ')
@@ -299,6 +295,8 @@ class SessionUIMS:
         html = html.replace('u0027', "'")
         html = html.replace('u0026', '&')
         html = html.replace('<br/>', '\n')
+        html = html.replace('\\', '')
+
         return html
     
     def extract_message(self, annoucement_divs, headers):
@@ -306,7 +304,7 @@ class SessionUIMS:
         for announce_div in annoucement_divs:
             msg_title = announce_div.find('h2').get_text()
             msg_date = announce_div.find('div', {'class': 'ann-date'}).contents[1].contents[1].get_text()
-            msg_body = announce_div.find('p').get_text().strip()
+            msg_body = announce_div.find('p').get_text()
             msg_uploader = announce_div.find('small').get_text()
 
             try:
@@ -333,10 +331,7 @@ class SessionUIMS:
         return announcements
 
 user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
-# print(user.timetable)
-# user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
-# user.attendance
-# user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
+
 with open('announcements.json', 'w') as file:
     file.write(json.dumps(user.annoucements(), indent=2))
 ending = time.time()
