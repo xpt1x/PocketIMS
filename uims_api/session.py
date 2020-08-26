@@ -281,7 +281,6 @@ class SessionUIMS:
         soup = BeautifulSoup(parsable_html, 'html.parser')
         
         annoucement_divs = soup.find_all('div', {'class': 'announcement-thumbnail'})
-        ## Just for testing
         return self.extract_message(annoucement_divs, headers)
     
     def parasable_form(self, html):
@@ -300,13 +299,28 @@ class SessionUIMS:
         return html
     
     def extract_message(self, annoucement_divs, headers):
+        # with open('anndivs.html', 'w') as file:
+        #     for div in annoucement_divs:
+        #         file.write(div.prettify())
         announcements = []
         for announce_div in annoucement_divs:
             msg_title = announce_div.find('h2').get_text()
             msg_date = announce_div.find('div', {'class': 'ann-date'}).contents[1].contents[1].get_text()
             msg_body = announce_div.find('p').get_text()
-            msg_uploader = announce_div.find('small').get_text()
+            msg_get_uploader = announce_div.find('small').get_text()
+            msg_uploader = msg_get_uploader[msg_get_uploader.find(':')+2:]
 
+            ################################################
+            # SHOULD BE ACTIVATED LATER and FRONTEND should DEAL WITH THIS
+            try:
+                msg_image = []
+                images = announce_div.find('p').find_all('img')
+                for image in images:
+                    b64_data = image['src'].split(',')[1]
+                    msg_image.append(b64_data)
+            except:
+                pass
+            ################################################
             try:
                 msg_attachment = []
                 attachment_divs = announce_div.find_all('div', {'class':'attachment'})
@@ -315,9 +329,6 @@ class SessionUIMS:
                     attachment_link = attachment.find('a')['href']
                     absolute_link = AUTHENTICATE_URL + attachment_link[3:]
                     msg_attachment.append((attachment_name, absolute_link))
-                    # response = requests.get(absolute_link, headers=headers)
-                    # memory_attachment = io.BytesIO(response.content)
-                    # msg_attachment.append((attachment_name, memory_attachment))
             except:
                 pass
 
@@ -325,7 +336,9 @@ class SessionUIMS:
                         'date'       : msg_date,
                         'body'       : msg_body,
                         'uploader'   : msg_uploader,
-                        'attachment' : msg_attachment }
+                        'attachment' : msg_attachment, 
+                        #'image'      : msg_image
+            }
             announcements.append(msg_dict)
 
         return announcements
@@ -333,7 +346,7 @@ class SessionUIMS:
 user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
 
 with open('announcements.json', 'w') as file:
-    file.write(json.dumps(user.annoucements(), indent=2))
+    file.write(json.dumps(user.annoucements(3), indent=2))
 ending = time.time()
 print('-'*30)
 print(f'Execution Time: {ending-start}')
