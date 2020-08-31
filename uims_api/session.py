@@ -1,12 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-##### FOR TESTING PURPOSE ###########
-import os, re, time
-#from .exceptions import IncorrectCredentialsError, UIMSInternalError
-
-start = time.time()
-##### FOR TESTING PURPOSE ###########
+import re
+from .exceptions import IncorrectCredentialsError, UIMSInternalError
 
 BASE_URL = "https://uims.cuchd.in"
 AUTHENTICATE_URL = BASE_URL + "/uims/"
@@ -163,6 +159,9 @@ class SessionUIMS:
     def _get_timetable(self):
         timetable_url = AUTHENTICATE_URL + ENDPOINTS['Timetable']
         response = requests.get(timetable_url, cookies=self.cookies)
+        # Checking for error in response as status code returned is 200
+        if(response.text.find(ERROR_HEAD) != -1):
+            raise UIMSInternalError('UIMS internal error occured')
         soup = BeautifulSoup(response.text, "html.parser")
         viewstate_tag = soup.find("input", {"name": "__VIEWSTATE"})
         data = {
@@ -342,11 +341,3 @@ class SessionUIMS:
             announcements.append(msg_dict)
 
         return announcements
-
-user = SessionUIMS(os.getenv('UIMS_UID'), os.getenv('UIMS_PASSWORD'))
-
-with open('announcements.json', 'w') as file:
-    file.write(json.dumps(user.annoucements(3), indent=2))
-ending = time.time()
-print('-'*30)
-print(f'Execution Time: {ending-start}')
