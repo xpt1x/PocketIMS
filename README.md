@@ -1,6 +1,6 @@
 # Pocket IMS
 
-Better UIMS
+Better UIMS, build with python, react
 
 ## Building
 
