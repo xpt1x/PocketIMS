@@ -18,4 +18,3 @@ $ pip install -e .
 $ cd ..
 $ export FLASK_APP=application.py
 $ flask run
-```
