@@ -15,6 +15,9 @@ $ pip install -r requirements.txt
 # install local api module
 $ pip install -e .
 # running backend server
+$ cd frontend
+$ npm install
+$ npm run start
 $ cd ..
 $ export FLASK_APP=application.py
 $ flask run
