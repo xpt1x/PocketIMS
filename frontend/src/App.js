@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import {Router, Link} from '@reach/router';
+import SignIn from './components/SignIn'
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [attendance, setAttendance] = React.useState([])
+  const [fullAttendance, setFullAttendance] = React.useState([])
+  const [timetable, setTimetable] = React.useState([])
+  const globalProps = {
+    setLoggedIn: setLoggedIn,
+    setAttendance: setAttendance,
+    setTimetable: setTimetable
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <SignIn {...globalProps} path='signin'/>
+    </Router>
   );
 }
+
 
 export default App;
