@@ -80,22 +80,24 @@ export default function SignIn({setLoggedIn, loggedIn}) {
     api.post(routeSignIn, {
       'uid': uid,
       'password': pass
-    }).then(response => response.data)
-    .then(data => {
-      if(data.problem)
-        console.log(data.problem)
-      else
+    }).then(response => {
+      if(!response.ok)
       {
-        if(data.error)
+        console.log(response.problem)
+        // set an error here to show user
+      }
+      else {
+        // response ok
+        if(response.data.error)
         {
-          console.log(data.error)
+          // project api has responded with an error, set an error state 
+          console.log(response.data.error)
         }
         else {
           // correct response
           setLoggedIn(true)
           localStorage.setItem('uid', uid)
           localStorage.setItem('password', pass)
-          
         }
       }
     })
