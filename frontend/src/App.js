@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Router } from '@reach/router'
+import About from './components/About'
 
 function App() {
   return (
