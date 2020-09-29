@@ -66,7 +66,7 @@ export default function SignIn({setLoggedIn, loggedIn}) {
   const [loading, setLoading] = React.useState(false);
   const [message, setMessage] = React.useState({
     message: null,
-    variant: null
+    variant: 0
   });
   
   // function dataFetch(){
@@ -99,14 +99,14 @@ export default function SignIn({setLoggedIn, loggedIn}) {
         if(response.data.error)
         {
           // project api has responded with an error, set an error state 
-          setMessage({message: response.data.error, variant: 'error'})
+          setMessage({message: response.data.error, variant: -1})
           console.log(response.data.error)
         }
         else {
           // correct response
           setLoggedIn(true)
           navigate('dashboard')
-          setMessage({message: 'Login successful', variant: 'success'})
+          setMessage({message: 'Login successful', variant: 1})
           localStorage.setItem('uid', uid)
           localStorage.setItem('password', pass)
         }
