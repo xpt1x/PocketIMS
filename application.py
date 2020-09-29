@@ -6,6 +6,22 @@ from uims_api.exceptions import IncorrectCredentialsError, UIMSInternalError
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/api/signin', methods=['POST'])
+def signin():
+
+    if not request.form.get('uid'):
+        return jsonify({'error': 'UID not provided'})
+    if not request.form.get('password'):
+        return jsonify({'error': 'Password not provided'})
+
+    try:
+        SessionUIMS(request.form.get('uid'), request.form.get('password'))
+    except Exception as e:
+        if e.__class__ == IncorrectCredentialsError:
+            return jsonify({'error': 'Invalid credentials'})
+    else:
+        return jsonify({'success' : True})
+
 @app.route('/api/attendance', methods=['POST'])
 def get_minimal_attendance():
 

@@ -13,6 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { create } from 'apisauce'
+import { navigate } from '@reach/router';
+import Loading from './Loading'
+import Message from './Message'
 
 function Copyright() {
   return (
@@ -61,7 +64,10 @@ export default function SignIn({setLoggedIn, loggedIn}) {
   const api = create({baseURL: local})
 
   const [loading, setLoading] = React.useState(false);
-  const [invalid, setInvalid] = React.useState(null);
+  const [message, setMessage] = React.useState({
+    message: null,
+    variant: null
+  });
   
   // function dataFetch(){
   //   api.post(routeAttendance, {
@@ -74,13 +80,15 @@ export default function SignIn({setLoggedIn, loggedIn}) {
   function handleClick(event) {
     event.preventDefault();
     setLoading(true)
+
     const uid = document.getElementById('uid').value
     const pass = document.getElementById('password').value;
+    const formdata = new FormData();
+    formdata.append('uid', uid)
+    formdata.append('password', pass)
 
-    api.post(routeSignIn, {
-      'uid': uid,
-      'password': pass
-    }).then(response => {
+    api.post(routeSignIn, formdata).then(response => {
+      setLoading(false)
       if(!response.ok)
       {
         console.log(response.problem)
@@ -91,11 +99,14 @@ export default function SignIn({setLoggedIn, loggedIn}) {
         if(response.data.error)
         {
           // project api has responded with an error, set an error state 
+          setMessage({message: response.data.error, variant: 'error'})
           console.log(response.data.error)
         }
         else {
           // correct response
           setLoggedIn(true)
+          navigate('dashboard')
+          setMessage({message: 'Login successful', variant: 'success'})
           localStorage.setItem('uid', uid)
           localStorage.setItem('password', pass)
         }
@@ -108,6 +119,8 @@ export default function SignIn({setLoggedIn, loggedIn}) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+        <Loading open={loading} />
+        {message.message ? <Message message={message} /> : null}
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -143,6 +156,7 @@ export default function SignIn({setLoggedIn, loggedIn}) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleClick}
           >
             Sign In
           </Button>
