@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Router, Link} from '@reach/router';
+import { navigate } from '@reach/router';
 import SignIn from './components/SignIn'
 import Dashboard from './components/Dashboard'
 
@@ -14,7 +15,15 @@ function App() {
     setAttendance: setAttendance,
     setTimetable: setTimetable
   }
-  
+
+  useEffect(()=>{
+    console.log(loggedIn)
+    if(loggedIn){
+      navigate('dashboard')
+    }
+  })
+
+  // console.log(loggedIn);
   return (
     <Router>
       <SignIn {...globalProps} path='/'/>

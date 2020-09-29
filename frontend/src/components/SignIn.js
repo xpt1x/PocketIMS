@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -50,9 +50,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({setLoggedIn, loggedIn}) {
+export default function SignIn({setLoggedIn}) {
   const classes = useStyles();
-  
 
   let prod = 'http://127.0.0.1:5000'
   let local = 'http://127.0.0.1:5000'
@@ -69,6 +68,7 @@ export default function SignIn({setLoggedIn, loggedIn}) {
     variant: null
   });
   
+
   // function dataFetch(){
   //   api.post(routeAttendance, {
   //       'uid': uid,
@@ -105,7 +105,7 @@ export default function SignIn({setLoggedIn, loggedIn}) {
         else {
           // correct response
           setLoggedIn(true)
-          navigate('dashboard')
+          navigate('dashboard', {replace: true})
           setMessage({message: 'Login successful', variant: 'success'})
           localStorage.setItem('uid', uid)
           localStorage.setItem('password', pass)
