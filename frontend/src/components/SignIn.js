@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Loading from './Loading'
-import Message from './Message'
 import {withRouter, useHistory} from 'react-router-dom'
 import Api from './Api'
 
@@ -47,25 +46,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignIn({setLoggedIn}) {
+function SignIn({setLoggedIn, message, setMessage}) {
   const history = useHistory()
-  console.log(history)
+  // console.log(history)
   const classes = useStyles();
 
   const [loading, setLoading] = React.useState(false);
-  const [message, setMessage] = React.useState({
-    message: null,
-    variant: 0
-  });
-  
-
-  // function dataFetch(){
-  //   api.post(routeAttendance, {
-  //       'uid': uid,
-  //       'password': pass
-  //   })
-  // }
-
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -109,7 +95,6 @@ function SignIn({setLoggedIn}) {
       <CssBaseline />
       <div className={classes.paper}>
         <Loading open={loading} />
-        {message.message ? <Message message={message} /> : null}
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
