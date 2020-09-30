@@ -16,18 +16,11 @@ function App() {
     setTimetable: setTimetable
   }
 
-  useEffect(()=>{
-    console.log(loggedIn)
-    if(loggedIn){
-      navigate('dashboard')
-    }
-  })
-
   // console.log(loggedIn);
   return (
     <Router>
       <SignIn {...globalProps} path='/'/>
-      <Dashboard {...globalProps} path='dashboard' />
+      <Dashboard {...globalProps} loggedIn={loggedIn} path='dashboard' />
     </Router>
   );
 }
