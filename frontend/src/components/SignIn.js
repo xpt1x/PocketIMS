@@ -4,15 +4,15 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
+import Box from '@material-ui/core/Box'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { create } from 'apisauce'
-import { navigate, Redirect, redirectTo } from '@reach/router';
 import Loading from './Loading'
 import Message from './Message'
+import {withRouter, useHistory} from 'react-router-dom'
 
 function Copyright() {
   return (
@@ -47,9 +47,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({setLoggedIn}) {
+function SignIn({setLoggedIn}) {
+  const history = useHistory()
+  console.log(history)
   const classes = useStyles();
-
   let prod = 'http://127.0.0.1:5000'
   let local = 'http://127.0.0.1:5000'
   let routeSignIn = '/api/signin'
@@ -74,7 +75,7 @@ export default function SignIn({setLoggedIn}) {
   // }
 
 
-  function handleClick(event) {
+  const handleClick = (event) => {
     event.preventDefault();
     setLoading(true)
 
@@ -102,10 +103,10 @@ export default function SignIn({setLoggedIn}) {
         else {
           // correct response
           setLoggedIn(true)
-          navigate('dashboard', {replace: true})
           setMessage({message: 'Login successful', variant: 1})
           localStorage.setItem('uid', uid)
           localStorage.setItem('password', pass)
+          history.push('/dashboard');
         }
       }
     })
@@ -164,3 +165,5 @@ export default function SignIn({setLoggedIn}) {
     </Container>
   );
 }
+
+export default (withRouter(SignIn));

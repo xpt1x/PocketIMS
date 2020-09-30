@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import {Router, Link} from '@reach/router';
-import { navigate } from '@reach/router';
 import SignIn from './components/SignIn'
 import Dashboard from './components/Dashboard'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -16,12 +15,11 @@ function App() {
     setTimetable: setTimetable
   }
 
-  // console.log(loggedIn);
   return (
-    <Router>
-      <SignIn {...globalProps} path='/'/>
-      <Dashboard {...globalProps} loggedIn={loggedIn} path='dashboard' />
-    </Router>
+    <Switch>
+        <Route path='/' exact render={(props) => <SignIn {...props} {...globalProps}/>}/>
+        <Route path='/dashboard' exact render={Dashboard}></Route>
+    </Switch>
   );
 }
 
