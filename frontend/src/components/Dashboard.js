@@ -1,4 +1,3 @@
-import { redirectTo } from '@reach/router'
 import  React from 'react'
 export default function Dashboard({loggedIn})
 {

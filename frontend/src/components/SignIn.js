@@ -9,10 +9,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { create } from 'apisauce'
 import Loading from './Loading'
 import Message from './Message'
 import {withRouter, useHistory} from 'react-router-dom'
+import Api from './Api'
 
 function Copyright() {
   return (
@@ -51,14 +51,6 @@ function SignIn({setLoggedIn}) {
   const history = useHistory()
   console.log(history)
   const classes = useStyles();
-  let prod = 'http://127.0.0.1:5000'
-  let local = 'http://127.0.0.1:5000'
-  let routeSignIn = '/api/signin'
-  let routeAttendance = '/api/attendance'
-  let routeFullAttendance = '/api/fullattendance'
-  let routeTimetable = '/api/timetable'
-
-  const api = create({baseURL: local})
 
   const [loading, setLoading] = React.useState(false);
   const [message, setMessage] = React.useState({
@@ -85,12 +77,12 @@ function SignIn({setLoggedIn}) {
     formdata.append('uid', uid)
     formdata.append('password', pass)
 
-    api.post(routeSignIn, formdata).then(response => {
+    Api.post('/signin', formdata).then(response => {
       setLoading(false)
       if(!response.ok)
       {
         console.log(response.problem)
-        // set an error here to show user
+        setMessage({message: response.problem, variant: -1})
       }
       else {
         // response ok
