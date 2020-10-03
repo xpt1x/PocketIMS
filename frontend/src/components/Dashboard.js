@@ -2,7 +2,9 @@ import React from "react";
 import { navigate } from "@reach/router";
 import Skeleton from "@material-ui/lab/Skeleton";
 import FetchData from "../ApiLayer/FetchData";
-const cacheMinute = 5;
+import { Tabs, Tab, AppBar, Container } from "@material-ui/core";
+import SwipeableViews from 'react-swipeable-views'
+
 export default function Dashboard({
   setAttendance,
   setFullAttendance,
@@ -10,7 +12,18 @@ export default function Dashboard({
   attendance,
   timetable,
   fullAttendance,
+  children
 }) {
+  const cacheMinute = 5;
+  const tabs = {
+    0: 'attendance',
+    1: 'timetable'
+  }
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    navigate(`/dashboard/${tabs[newValue]}`);
+  };
   React.useEffect(() => {
     // user is logged in send to dashboard
     if (!localStorage.getItem("uid")) {
@@ -27,6 +40,7 @@ export default function Dashboard({
       setAttendance(JSON.parse(localStorage.getItem("attendance")));
       setFullAttendance(JSON.parse(localStorage.getItem("fullattendance")));
       setTimetable(JSON.parse(localStorage.getItem("timetable")));
+      navigate('/dashboard/attendance');
     } else {
       // cache expired, fetch new
       FetchData({ setAttendance, setFullAttendance, setTimetable });
@@ -35,12 +49,15 @@ export default function Dashboard({
 
   return (
     <>
-      <h2>Hey there! You are on Dashboard</h2>
-      {attendance !== undefined ? (
-        <h2>Attendance fetched</h2>
-      ) : (
-        <Skeleton variant="rect" width={210} height={118} />
-      )}
+      <AppBar position='fixed'>
+        <Tabs value={value} onChange={handleChange} centered >
+          <Tab label="Attendance"/>
+          <Tab label="Timetable" />
+        </Tabs>
+      </AppBar>
+      <Container style={{marginTop: '60px'}}>
+          {children}
+      </Container>
     </>
   );
 }
