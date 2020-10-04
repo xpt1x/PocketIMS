@@ -60,7 +60,7 @@ export default function Timetable() {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} id="timetable">
       <Tabs
         orientation="vertical"
         value={value}
