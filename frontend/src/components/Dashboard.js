@@ -4,6 +4,7 @@ import { navigate } from "@reach/router";
 import FetchData from "../ApiLayer/FetchData";
 import { Tabs, Tab, AppBar, Container } from "@material-ui/core";
 // import SwipeableViews from 'react-swipeable-views'
+import LogOut from "./LogOut";
 
 export default function Dashboard({
   setAttendance,
@@ -12,13 +13,13 @@ export default function Dashboard({
   attendance,
   timetable,
   fullAttendance,
-  children
+  children,
 }) {
   const cacheMinute = 5;
   const tabs = {
-    0: 'attendance',
-    1: 'timetable'
-  }
+    0: "attendance",
+    1: "timetable",
+  };
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -40,7 +41,7 @@ export default function Dashboard({
       setAttendance(JSON.parse(localStorage.getItem("attendance")));
       setFullAttendance(JSON.parse(localStorage.getItem("fullattendance")));
       setTimetable(JSON.parse(localStorage.getItem("timetable")));
-      navigate('/dashboard/attendance');
+      navigate("/dashboard/attendance");
     } else {
       // cache expired, fetch new
       FetchData({ setAttendance, setFullAttendance, setTimetable });
@@ -49,15 +50,14 @@ export default function Dashboard({
 
   return (
     <>
-      <AppBar position='fixed'>
-        <Tabs value={value} onChange={handleChange} centered >
-          <Tab label="Attendance"/>
+      <AppBar position="fixed">
+        <Tabs value={value} onChange={handleChange} centered>
+          <Tab label="Attendance" />
           <Tab label="Timetable" />
         </Tabs>
       </AppBar>
-      <Container style={{marginTop: '60px'}}>
-          {children}
-      </Container>
+      <Container style={{ marginTop: "60px" }}>{children}</Container>
+      <LogOut />
     </>
   );
 }
