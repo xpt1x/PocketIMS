@@ -3,8 +3,9 @@ import SignIn from "./components/SignIn";
 import Dashboard from "./components/Dashboard";
 import Message from "./components/Message";
 import { Router } from "@reach/router";
-import Attendance from './components/Attendance'
-import TimeTable from './components/TimeTable'
+import Attendance from "./components/Attendance";
+import TimeTable from "./components/TimeTable";
+import "./styles/main.scss";
 
 function App() {
   const [attendance, setAttendance] = React.useState(undefined);
@@ -34,9 +35,9 @@ function App() {
       {message.message ? <Message message={message} /> : null}
       <Router>
         <SignIn path="/" {...globalProps} />
-        <Dashboard path="dashboard" {...dashboardProps}> 
-          <Attendance path="attendance" attendance={attendance}/>
-          <TimeTable path="timetable" timetable={timetable}/>
+        <Dashboard path="dashboard" {...dashboardProps}>
+          <Attendance path="attendance" attendance={attendance} />
+          <TimeTable path="timetable" timetable={timetable} />
         </Dashboard>
         {/* Create a not found page for a non func route */}
       </Router>
