@@ -41,11 +41,11 @@ export default function Dashboard({
       setAttendance(JSON.parse(localStorage.getItem("attendance")));
       setFullAttendance(JSON.parse(localStorage.getItem("fullattendance")));
       setTimetable(JSON.parse(localStorage.getItem("timetable")));
-      navigate("/dashboard/attendance");
     } else {
       // cache expired, fetch new
       FetchData({ setAttendance, setFullAttendance, setTimetable });
     }
+    navigate("/dashboard/attendance");
   }, [setAttendance, setFullAttendance, setTimetable]);
 
   return (
