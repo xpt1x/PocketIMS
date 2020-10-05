@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Timetable(timetable) {
+export default function Lectures() {
   const [timings, setTimnings] = useState({
     time1: {
       sname: "A",
@@ -80,7 +80,6 @@ export default function Timetable(timetable) {
             </div>
 
           <div style={{ flex: 4 }}  className="parentDiv">
-        
                 <div  className="semiParentDiv">
                     <div  className="childDiv">
                         {props.sname}

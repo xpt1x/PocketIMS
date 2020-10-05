@@ -7,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Lectures from "./Lectures";
 import './TimeTable.css';
+import { navigate } from "@reach/router";
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,10 +44,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Timetable(timetable) {
+export default function Timetable({timetable}) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
+  if(!timetable){
+    navigate('/dashboard')
+  }
   console.log(timetable);
   
   const handleChange = (event, newValue) => {
@@ -62,17 +67,18 @@ export default function Timetable(timetable) {
         className="tabs"
         scrollButtons="on"
       >
-        <Tab label="Mon" className="Tabstyle" />
-        <Tab label="Tue" className="Tabstyle" />
-        <Tab label="Wed" className="Tabstyle" />
-        <Tab label="Thu" className="Tabstyle" />
-        <Tab label="Fri" className="Tabstyle" />
-        <Tab label="Sat" className="Tabstyle" />
-        <Tab label="Sun" className="Tabstyle" />
+
+        <Tab label="Mon  " className="Tabstyle" />
+        <Tab label="Tue  " className="Tabstyle" />
+        <Tab label="Wed  " className="Tabstyle" />
+        <Tab label="Thu  " className="Tabstyle" />
+        <Tab label="Fri  " className="Tabstyle" />
+        <Tab label="Sat  " className="Tabstyle" />
+        <Tab label="Sun  " className="Tabstyle" />
         
       </Tabs>
       <TabPanel value={value} index={0} className="TabPanel">
-        <Lectures  />
+        <Lectures />
       </TabPanel>
       <TabPanel value={value} index={1} className="TabPanel">
         <Lectures />
