@@ -1,9 +1,9 @@
 import React from "react";
 import { navigate } from "@reach/router";
-// import Skeleton from "@material-ui/lab/Skeleton";
+import Skeleton from "@material-ui/lab/Skeleton";
 import FetchData from "../ApiLayer/FetchData";
 import { Tabs, Tab, AppBar, Container } from "@material-ui/core";
-// import SwipeableViews from 'react-swipeable-views'
+import SwipeableViews from 'react-swipeable-views'
 
 export default function Dashboard({
   setAttendance,
@@ -50,9 +50,9 @@ export default function Dashboard({
   return (
     <>
       <AppBar position='fixed'>
-        <Tabs value={value} onChange={handleChange} centered >
-          <Tab label="Attendance"/>
-          <Tab label="Timetable" />
+        <Tabs value={value} onChange={handleChange} >
+          <Tab label="Attendance" style={{ minWidth: "50%" }} />
+          <Tab label="Timetable" style={{ minWidth: "50%" }} />
         </Tabs>
       </AppBar>
       <Container style={{marginTop: '60px'}}>
