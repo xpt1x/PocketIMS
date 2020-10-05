@@ -14,46 +14,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Lectures() {
-  const [timings, setTimnings] = useState({
-    time1: {
-      sname: "A",
-      type: "practical",
-      tname: "Sir/Mam",
-      group: "A/B"
-    },
-    time2: {
-      sname: "B",
-      type: "practical",
-      tname: "Sir/Mam",
-      group: "B/A"
-    },
-    time3: {
-      sname: "C",
-      type: "theory",
-      tname: "Sir/Mam",
-      group: "A/B/C"
-    },
-    time4: {
-      sname: "D",
-      type: "theory",
-      tname: "Sir/Mam",
-      group: "A/B/C"
-    },
-    time5: {
-      sname: "E",
-      type: "Practical",
-      tname: "Sir/Mam",
-      group: "A/B/C"
-    },
-    time6: {
-      sname: "F",
-      type: "theory",
-      tname: "Sir/Mam",
-      group: "A/B/C"
-    }
+export default function Lectures({lecture}) {
+  const [timings] = useState(lecture);
 
-  });
+
+  console.log(lecture);
+
 
   var class_details = [];
   Object.entries(timings).map(([key, values]) =>
@@ -67,7 +33,6 @@ export default function Lectures() {
   const classes = useStyles();
 
   function FormRow(props) {
-    // console.log(class_details);
 
     return (
       <div style={{
@@ -82,7 +47,7 @@ export default function Lectures() {
           <div style={{ flex: 4 }}  className="parentDiv">
                 <div  className="semiParentDiv">
                     <div  className="childDiv">
-                        {props.sname}
+                        {props.title}
                     </div>
 
                     <div  className="childDiv">
@@ -91,7 +56,7 @@ export default function Lectures() {
                 </div>
                 <div  className="semiParentDiv">
                     <div  className="childDiv">
-                        {props.tname}
+                        {props.teacher}
                     </div>
 
                     <div  className="childDiv">
@@ -112,4 +77,42 @@ export default function Lectures() {
     </div>
   );
 }
+
+//dummy data 
+// time1: {
+//   sname: "A",
+//   type: "practical",
+//   tname: "Sir/Mam",
+//   group: "A/B"
+// },
+// time2: {
+//   sname: "B",
+//   type: "practical",
+//   tname: "Sir/Mam",
+//   group: "B/A"
+// },
+// time3: {
+//   sname: "C",
+//   type: "theory",
+//   tname: "Sir/Mam",
+//   group: "A/B/C"
+// },
+// time4: {
+//   sname: "D",
+//   type: "theory",
+//   tname: "Sir/Mam",
+//   group: "A/B/C"
+// },
+// time5: {
+//   sname: "E",
+//   type: "Practical",
+//   tname: "Sir/Mam",
+//   group: "A/B/C"
+// },
+// time6: {
+//   sname: "F",
+//   type: "theory",
+//   tname: "Sir/Mam",
+//   group: "A/B/C"
+// }
 

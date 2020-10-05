@@ -51,7 +51,7 @@ export default function Timetable({timetable}) {
   if(!timetable){
     navigate('/dashboard')
   }
-  console.log(timetable);
+  // console.log(timetable);
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -78,22 +78,22 @@ export default function Timetable({timetable}) {
         
       </Tabs>
       <TabPanel value={value} index={0} className="TabPanel">
-        <Lectures />
+        <Lectures lecture={timetable["Mon"]}/>
       </TabPanel>
       <TabPanel value={value} index={1} className="TabPanel">
-        <Lectures />
+        <Lectures lecture={timetable["Tue"]}/>
       </TabPanel>
       <TabPanel value={value} index={2} className="TabPanel">
-        <Lectures />
+        <Lectures lecture={timetable["Wed"]}/>
       </TabPanel>
       <TabPanel value={value} index={3} className="TabPanel">
-        <Lectures />
+        <Lectures lecture={timetable["Thu"]}/>
       </TabPanel>
       <TabPanel value={value} index={4} className="TabPanel">
-        <Lectures />
+        <Lectures lecture={timetable["Fri"]}/>
       </TabPanel>
       <TabPanel value={value} index={5} className="TabPanel">
-        <Lectures />
+        <Lectures lecture={timetable["Sun"]}/>
       </TabPanel>
       <TabPanel value={value} index={6} className="TabPanel">
         <Lectures />
