@@ -1,7 +1,13 @@
 import React from "react";
 
-const Attendance = () => {
-  return <div>This is the Attendance tab</div>;
-};
-
-export default Attendance;
+export default function Attendance({ attendance }) {
+  return (
+    <>
+      {attendance ? (
+        <h2>Attendance fetched</h2>
+      ) : (
+        <h2>Waiting for attendance</h2>
+      )}
+    </>
+  );
+}
