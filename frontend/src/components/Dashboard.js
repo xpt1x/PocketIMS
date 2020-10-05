@@ -10,9 +10,6 @@ export default function Dashboard({
   setAttendance,
   setFullAttendance,
   setTimetable,
-  attendance,
-  timetable,
-  fullAttendance,
   children,
 }) {
   const cacheMinute = 5;

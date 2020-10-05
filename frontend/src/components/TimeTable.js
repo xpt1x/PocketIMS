@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TimeTable() {
+export default function TimeTable({ timetable }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
