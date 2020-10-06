@@ -72,8 +72,7 @@ export default function Timetable({timetable}) {
         <Tab label="Tue  " className="Tabstyle" />
         <Tab label="Wed  " className="Tabstyle" />
         <Tab label="Thu  " className="Tabstyle" />
-        <Tab label="Fri  " className="Tabstyle" />
-        <Tab label="Sat  " className="Tabstyle" />
+        <Tab label="Fri  " className="Tabstyle" />  
         <Tab label="Sun  " className="Tabstyle" />
         
       </Tabs>
@@ -94,9 +93,6 @@ export default function Timetable({timetable}) {
       </TabPanel>
       <TabPanel value={value} index={5} className="TabPanel">
         <Lectures lecture={timetable["Sun"]}/>
-      </TabPanel>
-      <TabPanel value={value} index={6} className="TabPanel">
-        <Lectures />
       </TabPanel>
     </div>
   );
