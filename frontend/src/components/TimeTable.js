@@ -5,6 +5,10 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import Lectures from "./Lectures";
+import './TimeTable.css';
+import { navigate } from "@reach/router";
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -29,69 +33,68 @@ function TabPanel(props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    "aria-controls": `vertical-tabpanel-${index}`,
-  };
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
     display: "flex",
-    alignItems: "",
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-  },
+    minWidth: "100%",
+  }
 }));
 
-export default function TimeTable() {
+
+export default function TimeTable({ timetable }) {
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
+  if(!timetable){
+    navigate('/dashboard')
+  }
+  // console.log(timetable);
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <div className={classes.root} id="timetable">
+    <div className={classes.root}>
       <Tabs
         orientation="vertical"
         value={value}
         onChange={handleChange}
         aria-label="Vertical tabs example"
-        className={classes.tabs}
+        className="tabs"
+        scrollButtons="on"
       >
-        <Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
-        <Tab label="Item Four" {...a11yProps(3)} />
-        <Tab label="Item Five" {...a11yProps(4)} />
-        <Tab label="Item Six" {...a11yProps(5)} />
+
+        <Tab label="Mon  " className="Tabstyle" />
+        <Tab label="Tue  " className="Tabstyle" />
+        <Tab label="Wed  " className="Tabstyle" />
+        <Tab label="Thu  " className="Tabstyle" />
+        <Tab label="Fri  " className="Tabstyle" />  
+        <Tab label="Sun  " className="Tabstyle" />
+        
       </Tabs>
-      <TabPanel value={value} index={0}>
-        Item One
+      <TabPanel value={value} index={0} className="TabPanel">
+        <Lectures lecture={timetable["Mon"]}/>
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
+      <TabPanel value={value} index={1} className="TabPanel">
+        <Lectures lecture={timetable["Tue"]}/>
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
+      <TabPanel value={value} index={2} className="TabPanel">
+        <Lectures lecture={timetable["Wed"]}/>
       </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
+      <TabPanel value={value} index={3} className="TabPanel">
+        <Lectures lecture={timetable["Thu"]}/>
       </TabPanel>
-      <TabPanel value={value} index={4}>
-        Item Five
+      <TabPanel value={value} index={4} className="TabPanel">
+        <Lectures lecture={timetable["Fri"]}/>
       </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
+      <TabPanel value={value} index={5} className="TabPanel">
+        <Lectures lecture={timetable["Sun"]}/>
       </TabPanel>
     </div>
   );
