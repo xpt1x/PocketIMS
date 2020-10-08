@@ -8,6 +8,7 @@ import TimeTable from "./components/TimeTable";
 import SubjectDetail from "./components/SubjectDetail";
 import "./styles/main.scss";
 import FullReport from "./components/FullReport";
+import { createMuiTheme, CssBaseline, MuiThemeProvider } from "@material-ui/core";
 
 function App() {
   const [attendance, setAttendance] = React.useState(undefined);
@@ -34,30 +35,39 @@ function App() {
     timetable,
   };
 
+  const darkTheme = createMuiTheme({
+    palette: {
+      type: 'dark',
+    },
+  });
+
   return (
     <>
       {message.message ? <Message message={message} /> : null}
-      <Router>
-        <SignIn path="/" {...globalProps} />
-        <Dashboard path="dashboard" {...dashboardProps}>
-          <Attendance
-            path="attendance"
-            attendance={attendance}
-            setSubject={setSubject}
-          >
-            <SubjectDetail
-              path=":subjectcode"
-              subject={subject}
-              fullAttendance={fullAttendance}
-              drawerHandler={setDrawerOpen}
+      <MuiThemeProvider theme={darkTheme}>
+        <CssBaseline/>
+        <Router>
+          <SignIn path="/" {...globalProps} />
+          <Dashboard path="dashboard" {...dashboardProps}>
+            <Attendance
+              path="attendance"
+              attendance={attendance}
+              setSubject={setSubject}
             >
-              <FullReport path="report" data={fullAttendance} />
-            </SubjectDetail>
-          </Attendance>
-          <TimeTable path="timetable" timetable={timetable} />
-        </Dashboard>
-        {/* Create a not found page for a non func route */}
-      </Router>
+              <SubjectDetail
+                path=":subjectcode"
+                subject={subject}
+                fullAttendance={fullAttendance}
+                drawerHandler={setDrawerOpen}
+              >
+                <FullReport path="report" data={fullAttendance} close={setDrawerOpen}/>
+              </SubjectDetail>
+            </Attendance>
+            <TimeTable path="timetable" timetable={timetable} />
+          </Dashboard>
+          {/* Create a not found page for a non func route */}
+        </Router>
+      </MuiThemeProvider>
     </>
   );
 }
