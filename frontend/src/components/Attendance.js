@@ -15,6 +15,7 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
 
+
 const circularProgressTheme = createMuiTheme({
   palette: {
     primary: {

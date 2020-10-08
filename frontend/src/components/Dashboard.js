@@ -47,6 +47,7 @@ export default function Dashboard({
 
   return (
     <>
+
       <AppBar position="fixed">
         <Tabs value={value} onChange={handleChange} centered>
           <Tab label="Attendance" />
@@ -55,6 +56,7 @@ export default function Dashboard({
       </AppBar>
       <Container style={{ marginTop: "60px" }}>{children}</Container>
       <LogOut />
+
     </>
   );
 }
