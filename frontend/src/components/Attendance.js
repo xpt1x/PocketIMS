@@ -13,7 +13,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
-
+import { navigate } from "@reach/router";
 
 const circularProgressTheme = createMuiTheme({
   palette: {
@@ -95,7 +95,7 @@ CircularProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function Attendance({ attendance }) {
+export default function Attendance({ attendance, setSubject, children }) {
   const classes = useStyles();
 
   function compareTitles(a, b) {
@@ -106,15 +106,15 @@ export default function Attendance({ attendance }) {
 
   const cardClickHandler = (subject) => {
     if (parseInt(subject.Total_Delv) !== 0) {
-      window.location.hash = `#subject`;
-      ///// CHANGE HERE
-      return null;
+      setSubject(subject);
+      return navigate(`/dashboard/attendance/${subject.Code}`);
     }
     return false;
   };
 
   return (
     <>
+      {children}
       {attendance ? (
         <List component="ul" style={{ top: "60px" }}>
           {attendance.sort(compareTitles).map((subject) => (
