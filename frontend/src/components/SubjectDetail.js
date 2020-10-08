@@ -23,7 +23,7 @@ import Divider from "@material-ui/core/Divider";
 import Fab from "@material-ui/core/Fab";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import Tooltip from "@material-ui/core/Tooltip";
-import { navigate, redirectTo } from "@reach/router";
+import { navigate } from "@reach/router";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -121,7 +121,7 @@ function SubjectDetail(props) {
   const handleClose = () => {
     setOpen(false);
     //props.close({});
-    navigate("/dashboard");
+    navigate("/dashboard/attendance");
   };
 
   function calcuteLectures(props, req) {
@@ -135,13 +135,12 @@ function SubjectDetail(props) {
     }
   }
 
-  return (
+  return props.subject?(
     <>
       <Dialog
         fullScreen
         open={open}
         onClose={handleClose}
-        subject
         TransitionComponent={Transition}
       >
         <AppBar position="fixed">
@@ -397,8 +396,9 @@ function SubjectDetail(props) {
           )}
         </Tooltip>
       </Dialog>
+      {props.children}
     </>
-  );
+  ):null;
 }
 
 export default SubjectDetail;

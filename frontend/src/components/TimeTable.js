@@ -7,7 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Lectures from "./Lectures";
 import './TimeTable.css';
-import { navigate } from "@reach/router";
 
 
 function TabPanel(props) {
@@ -49,17 +48,12 @@ export default function TimeTable({ timetable }) {
 
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
-  if(!timetable){
-    navigate('/dashboard')
-  }
-  // console.log(timetable);
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  return (
+  return timetable?(
     <div className={classes.root}>
       <Tabs
         orientation="vertical"
@@ -97,5 +91,5 @@ export default function TimeTable({ timetable }) {
         <Lectures lecture={timetable["Sun"]}/>
       </TabPanel>
     </div>
-  );
+  ): null;
 }
