@@ -7,6 +7,7 @@ import Attendance from "./components/Attendance";
 import TimeTable from "./components/TimeTable";
 import SubjectDetail from "./components/SubjectDetail";
 import "./styles/main.scss";
+import FullReport from "./components/FullReport";
 
 function App() {
   const [attendance, setAttendance] = React.useState(undefined);
@@ -17,6 +18,7 @@ function App() {
     message: null,
     variant: 0,
   });
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const globalProps = {
     setMessage,
@@ -47,7 +49,10 @@ function App() {
               path=":subjectcode"
               subject={subject}
               fullAttendance={fullAttendance}
-            />
+              drawerHandler={setDrawerOpen}
+            >
+              <FullReport path="report" data={fullAttendance} />
+            </SubjectDetail>
           </Attendance>
           <TimeTable path="timetable" timetable={timetable} />
         </Dashboard>

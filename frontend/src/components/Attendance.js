@@ -15,7 +15,6 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
 
-
 const circularProgressTheme = createMuiTheme({
   palette: {
     primary: {
@@ -107,10 +106,8 @@ export default function Attendance({ attendance, setSubject, children }) {
 
   const cardClickHandler = (subject) => {
     if (parseInt(subject.Total_Delv) !== 0) {
-      setSubject(subject)
-      return navigate(`/dashboard/attendance/${subject.Code}`)
-      ///// CHANGE HERE
-      //return null;
+      setSubject(subject);
+      return navigate(`/dashboard/attendance/${subject.Code}`);
     }
     return false;
   };
