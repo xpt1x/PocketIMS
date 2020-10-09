@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    bottom: theme.spacing(4),
+    right: theme.spacing(4),
   },
 }));
 
@@ -135,7 +135,7 @@ function SubjectDetail(props) {
     }
   }
 
-  return props.subject?(
+  return props.subject ? (
     <>
       <Dialog
         fullScreen
@@ -398,7 +398,7 @@ function SubjectDetail(props) {
       </Dialog>
       {props.children}
     </>
-  ):null;
+  ) : null;
 }
 
 export default SubjectDetail;

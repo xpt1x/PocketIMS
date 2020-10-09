@@ -2,7 +2,7 @@ import React from "react";
 import { navigate } from "@reach/router";
 // import Skeleton from "@material-ui/lab/Skeleton";
 import FetchData from "../ApiLayer/FetchData";
-import { Tabs, Tab, AppBar, Container } from "@material-ui/core";
+import { Tabs, Tab, AppBar } from "@material-ui/core";
 // import SwipeableViews from 'react-swipeable-views'
 import LogOut from "./LogOut";
 
@@ -47,16 +47,20 @@ export default function Dashboard({
 
   return (
     <>
-
       <AppBar position="fixed">
-        <Tabs value={value} onChange={handleChange} centered>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          centered
+          style={{ color: "black" }}
+        >
           <Tab label="Attendance" />
           <Tab label="Timetable" />
         </Tabs>
       </AppBar>
-      <Container style={{ marginTop: "60px" }}>{children}</Container>
+      {children}
+      {/* <Container style={{ marginTop: "60px" }}></Container> */}
       <LogOut />
-
     </>
   );
 }
