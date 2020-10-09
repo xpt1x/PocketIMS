@@ -8,7 +8,12 @@ import TimeTable from "./components/TimeTable";
 import SubjectDetail from "./components/SubjectDetail";
 import "./styles/main.scss";
 import FullReport from "./components/FullReport";
-import { createMuiTheme, CssBaseline, MuiThemeProvider } from "@material-ui/core";
+import {
+  createMuiTheme,
+  CssBaseline,
+  MuiThemeProvider,
+} from "@material-ui/core";
+import { blue, deepOrange } from "@material-ui/core/colors";
 
 function App() {
   const [attendance, setAttendance] = React.useState(undefined);
@@ -19,9 +24,10 @@ function App() {
     message: null,
     variant: 0,
   });
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
-
+  const drawer = React.useState(false);
+  const setDrawerOpen = drawer[1];
   const globalProps = {
+    setDrawerOpen,
     setMessage,
     setAttendance,
     setFullAttendance,
@@ -37,7 +43,9 @@ function App() {
 
   const darkTheme = createMuiTheme({
     palette: {
-      type: 'dark',
+      type: "dark",
+      primary: blue,
+      secondary: deepOrange,
     },
   });
 
@@ -45,7 +53,7 @@ function App() {
     <>
       {message.message ? <Message message={message} /> : null}
       <MuiThemeProvider theme={darkTheme}>
-        <CssBaseline/>
+        <CssBaseline />
         <Router>
           <SignIn path="/" {...globalProps} />
           <Dashboard path="dashboard" {...dashboardProps}>
@@ -60,7 +68,11 @@ function App() {
                 fullAttendance={fullAttendance}
                 drawerHandler={setDrawerOpen}
               >
-                <FullReport path="report" data={fullAttendance} close={setDrawerOpen}/>
+                <FullReport
+                  path="report"
+                  data={fullAttendance}
+                  close={setDrawerOpen}
+                />
               </SubjectDetail>
             </Attendance>
             <TimeTable path="timetable" timetable={timetable} />
