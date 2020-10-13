@@ -14,6 +14,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
+import Loading from "./Loading";
 
 const circularProgressTheme = createMuiTheme({
   palette: {
@@ -181,7 +182,7 @@ export default function Attendance({ attendance, setSubject, children }) {
           ))}
         </List>
       ) : (
-        <h2>Waiting for attendance</h2>
+        <Loading />
       )}
     </>
   );
