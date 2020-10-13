@@ -46,14 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignIn({
-  setLoggedIn,
-  message,
-  setMessage,
-  setAttendance,
-  setFullAttendance,
-  setTimetable,
-}) {
+function SignIn({ message, setMessage }) {
   const classes = useStyles();
 
   const [loading, setLoading] = React.useState(false);
@@ -79,12 +72,14 @@ function SignIn({
           // project api has responded with an error, set an error state
           setMessage({ message: response.data.error, variant: -1 });
           console.log(response.data.error);
-        } else {
+        } else if (response.data.success) {
           // correct response
           setMessage({ message: "Login successful", variant: 1 });
           localStorage.setItem("uid", uid);
           localStorage.setItem("password", pass);
           navigate("dashboard", { replace: true });
+        } else {
+          setMessage({ message: "Server Issue", variant: -1 });
         }
       }
     });

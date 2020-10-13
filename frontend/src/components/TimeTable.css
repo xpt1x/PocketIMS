@@ -1,0 +1,9 @@
+.TabPanel{
+    width: 100%;
+}
+
+.tabs{
+    align-items: center;
+    text-align: center;
+    background-color: blueviolet;
+}
