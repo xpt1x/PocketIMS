@@ -6,9 +6,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Lectures from "./Lectures";
-import './TimeTable.css';
-import { navigate } from "@reach/router";
-
+import "./TimeTable.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -33,34 +31,26 @@ function TabPanel(props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
+  value: PropTypes.any.isRequired,
 };
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     minWidth: "100%",
-  }
+  },
 }));
 
-
 export default function TimeTable({ timetable }) {
-
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  if(!timetable){
-    navigate('/dashboard')
-  }
-  // console.log(timetable);
-  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  return (
-    <div className={classes.root}>
+  return timetable ? (
+    <div className={classes.root} style={{ marginTop: "60px" }}>
       <Tabs
         orientation="vertical"
         value={value}
@@ -69,33 +59,31 @@ export default function TimeTable({ timetable }) {
         className="tabs"
         scrollButtons="on"
       >
-
         <Tab label="Mon  " className="Tabstyle" />
         <Tab label="Tue  " className="Tabstyle" />
         <Tab label="Wed  " className="Tabstyle" />
         <Tab label="Thu  " className="Tabstyle" />
-        <Tab label="Fri  " className="Tabstyle" />  
+        <Tab label="Fri  " className="Tabstyle" />
         <Tab label="Sun  " className="Tabstyle" />
-        
       </Tabs>
       <TabPanel value={value} index={0} className="TabPanel">
-        <Lectures lecture={timetable["Mon"]}/>
+        <Lectures lecture={timetable["Mon"]} />
       </TabPanel>
       <TabPanel value={value} index={1} className="TabPanel">
-        <Lectures lecture={timetable["Tue"]}/>
+        <Lectures lecture={timetable["Tue"]} />
       </TabPanel>
       <TabPanel value={value} index={2} className="TabPanel">
-        <Lectures lecture={timetable["Wed"]}/>
+        <Lectures lecture={timetable["Wed"]} />
       </TabPanel>
       <TabPanel value={value} index={3} className="TabPanel">
-        <Lectures lecture={timetable["Thu"]}/>
+        <Lectures lecture={timetable["Thu"]} />
       </TabPanel>
       <TabPanel value={value} index={4} className="TabPanel">
-        <Lectures lecture={timetable["Fri"]}/>
+        <Lectures lecture={timetable["Fri"]} />
       </TabPanel>
       <TabPanel value={value} index={5} className="TabPanel">
-        <Lectures lecture={timetable["Sun"]}/>
+        <Lectures lecture={timetable["Sun"]} />
       </TabPanel>
     </div>
-  );
+  ) : null;
 }
