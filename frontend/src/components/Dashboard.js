@@ -1,10 +1,27 @@
 import React from "react";
 import { navigate } from "@reach/router";
 // import Skeleton from "@material-ui/lab/Skeleton";
+import MenuIcon from "@material-ui/icons/Menu";
 import FetchData from "../ApiLayer/FetchData";
-import { Tabs, Tab, AppBar } from "@material-ui/core";
+import {
+  Tabs,
+  Tab,
+  AppBar,
+  Toolbar,
+  IconButton,
+  makeStyles,
+} from "@material-ui/core";
 // import SwipeableViews from 'react-swipeable-views'
-import LogOut from "./LogOut";
+import Menu from "./Menu";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+}));
 
 export default function Dashboard({
   setAttendance,
@@ -12,12 +29,15 @@ export default function Dashboard({
   setTimetable,
   children,
 }) {
+  const classes = useStyles();
   const cacheMinute = 5;
   const tabs = {
     0: "attendance",
     1: "timetable",
   };
   const [value, setValue] = React.useState(0);
+  const [menu, setMenu] = React.useState(false);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     navigate(`/dashboard/${tabs[newValue]}`);
@@ -47,20 +67,33 @@ export default function Dashboard({
 
   return (
     <>
-      <AppBar position="fixed">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          centered
-          style={{ color: "black" }}
-        >
-          <Tab label="Attendance" />
-          <Tab label="Timetable" />
-        </Tabs>
-      </AppBar>
+      <div className={classes.root}>
+        <AppBar position="fixed">
+          <Toolbar variant="dense">
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              onClick={() => setMenu(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu open={menu} onclose={() => setMenu(false)} />
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              style={{ color: "black" }}
+              centered
+            >
+              <Tab label="Attendance" />
+              <Tab label="Timetable" />
+            </Tabs>
+          </Toolbar>
+        </AppBar>
+      </div>
       {children}
       {/* <Container style={{ marginTop: "60px" }}></Container> */}
-      <LogOut />
     </>
   );
 }
