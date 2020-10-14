@@ -5,8 +5,7 @@ import { Card } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& > *": {
-    }
+    marginTop: "60px",
   }
 }));
 
