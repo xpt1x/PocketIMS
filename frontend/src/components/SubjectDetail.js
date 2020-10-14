@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    bottom: theme.spacing(4),
+    right: theme.spacing(4),
   },
 }));
 
@@ -117,7 +117,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function SubjectDetail(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
     //props.close({});
@@ -135,7 +135,7 @@ function SubjectDetail(props) {
     }
   }
 
-  return props.subject?(
+  return props.subject ? (
     <>
       <Dialog
         fullScreen
@@ -398,7 +398,7 @@ function SubjectDetail(props) {
       </Dialog>
       {props.children}
     </>
-  ):null;
+  ) : null;
 }
 
 export default SubjectDetail;
