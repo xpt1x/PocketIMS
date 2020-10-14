@@ -15,6 +15,8 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
 import Loading from "./common/Loading";
+import ProgressSkeleton from "./ProgressSkeleton";
+// import ProgressSkeleton from "./ProgressSkeleton"
 
 const circularProgressTheme = createMuiTheme({
   palette: {
@@ -69,6 +71,7 @@ function CircularProgressWithLabel(props) {
     <Box className={classes.circular} position="relative" display="inline-flex">
       <ThemeProvider theme={circularProgressTheme}>
         <CircularProgress size={80} variant="static" {...props} />
+        
       </ThemeProvider>
       <Box
         top={0}
@@ -96,6 +99,7 @@ CircularProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
+
 export default function Attendance({ attendance, setSubject, children }) {
   const classes = useStyles();
 
@@ -116,7 +120,7 @@ export default function Attendance({ attendance, setSubject, children }) {
   return (
     <>
       {children}
-      {attendance ? (
+      {false ? (
         <List
           component="ul"
           style={{
@@ -194,7 +198,7 @@ export default function Attendance({ attendance, setSubject, children }) {
           ))}
         </List>
       ) : (
-        <Loading open={attendance !== undefined ? false : true} />
+        <ProgressSkeleton />
       )}
     </>
   );
