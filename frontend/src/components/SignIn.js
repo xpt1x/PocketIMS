@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { navigate } from "@reach/router";
-import Loading from "./Loading";
+import Loading from "./common/Loading";
 import Api from "../ApiLayer/Api";
 
 function Copyright() {
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 function SignIn({ message, setMessage }) {
   const classes = useStyles();
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleClick = (event) => {
     event.preventDefault();

@@ -22,12 +22,13 @@ const useStyles = makeStyles({
   },
 });
 
-const logout = () => {
-  localStorage.clear();
-  navigate("/");
-};
-
 export default function Menu(props) {
+  const logout = () => {
+    localStorage.clear();
+    props.setMessage({ message: "Logout successful", variant: 1 });
+    navigate("/");
+  };
+
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   return (
@@ -48,18 +49,21 @@ export default function Menu(props) {
               </ListItemIcon>
               <ListItemText primary="Profile" />
             </ListItem>
-            <ListItem button onClick={logout}>
-              <ListItemIcon>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText primary="Log Out" />
-            </ListItem>
-            <Divider />
+
             <ListItem button onClick={() => setOpen(true)}>
               <ListItemIcon>
                 <GitHubIcon />
               </ListItemIcon>
               <ListItemText primary="About" />
+            </ListItem>
+
+            <Divider />
+
+            <ListItem button onClick={logout}>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Log Out" />
             </ListItem>
           </List>
         </div>
