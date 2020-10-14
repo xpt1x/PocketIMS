@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { navigate } from "@reach/router";
 // import Skeleton from "@material-ui/lab/Skeleton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -27,6 +27,7 @@ export default function Dashboard({
   setAttendance,
   setFullAttendance,
   setTimetable,
+  setMessage,
   children,
 }) {
   const classes = useStyles();
@@ -79,7 +80,11 @@ export default function Dashboard({
             >
               <MenuIcon />
             </IconButton>
-            <Menu open={menu} onclose={() => setMenu(false)} />
+            <Menu
+              setMessage={setMessage}
+              open={menu}
+              onclose={() => setMenu(false)}
+            />
             <Tabs
               value={value}
               onChange={handleChange}
