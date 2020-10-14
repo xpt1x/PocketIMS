@@ -1,7 +1,9 @@
 import React from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
+// import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
+import ProgressSkeleton from '../ProgressSkeleton';
+
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -15,7 +17,7 @@ export default function Loading(props) {
 
   return (
       <Backdrop className={classes.backdrop} open={props.open}>
-        <CircularProgress color="inherit" />
+          <ProgressSkeleton />
       </Backdrop>
   );
 }
