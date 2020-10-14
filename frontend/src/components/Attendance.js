@@ -117,9 +117,20 @@ export default function Attendance({ attendance, setSubject, children }) {
     <>
       {children}
       {attendance ? (
-        <List component="ul" style={{ top: "60px", display: "flex", flexDirection: "column", alignItems: "center"}}>
+        <List
+          component="ul"
+          style={{
+            top: "60px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           {attendance.sort(compareTitles).map((subject) => (
-            <ListItem key={subject.Code} style={{maxWidth: "860px", marginBottom: "20px"}}>
+            <ListItem
+              key={subject.Code}
+              style={{ maxWidth: "860px", marginBottom: "20px" }}
+            >
               <CardActionArea>
                 <Card
                   className={classes.fullWidth}
@@ -127,7 +138,7 @@ export default function Attendance({ attendance, setSubject, children }) {
                     cardClickHandler(subject);
                   }}
                   elevation={10}
-                  style={{marginBottom: "0"}}
+                  style={{ marginBottom: "0" }}
                 >
                   <Box
                     className={
@@ -183,7 +194,7 @@ export default function Attendance({ attendance, setSubject, children }) {
           ))}
         </List>
       ) : (
-        <Loading />
+        <Loading open={attendance !== undefined ? false : true} />
       )}
     </>
   );
