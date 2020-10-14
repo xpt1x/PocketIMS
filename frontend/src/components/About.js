@@ -3,6 +3,7 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
+  Link
 } from "@material-ui/core";
 import { create } from "apisauce";
 import React, { useEffect, useState } from "react";
@@ -32,7 +33,7 @@ export default function About(props) {
           </Typography>
           <Typography gutterBottom>
             Github Repository:{" "}
-            <a href="https://github.com/xpt1x/PocketIMS" target="_blank" style={{color: 'rgba(255, 255, 255, 0.7)'}} >https://github.com/xpt1x/PocketIMS</a>
+            <Link href="https://github.com/xpt1x/PocketIMS" target="_blank">https://github.com/xpt1x/PocketIMS</Link>
           </Typography>
           <Typography variant="button" gutterBottom>
             <strong>Contributors</strong>

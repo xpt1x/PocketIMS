@@ -1,89 +1,67 @@
-import React, {useState} from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import Lectures from "./Lectures";
-import "./TimeTable.css";
+import React, { useState } from 'react'
+import {Step, Stepper, StepLabel, Container} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx'
+const useColorlibStepIconStyles = makeStyles({
+    root: {
+      backgroundColor: '#2196f3',
+      zIndex: 1,
+      color: "#fff",
+      width: 40,
+      height: 40,
+      display: 'flex',
+      borderRadius: '50%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      cursor: "pointer",
+      transition: "width 0.5s, height 0.5s"
+    },
+    active: {
+      width: 60,
+      height: 60,
+      backgroundColor: "#ff5722",
+    }
+});
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
+function Icon(props){
+    const classes = useColorlibStepIconStyles();
+    const Days = {1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sun"}
+    return (
+        <div className={clsx(classes.root, {
+            [classes.active]: props.active,
+          })}>
+            {Days[String(props.icon)]}
+        </div>
+    )
+}
+function Connector(){
+    return (
+        <div style={{width: "2px", height: "60px", backgroundColor: '#fff', position: "relative", left: "-4px"}}></div>
+    )
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    minWidth: "100%",
-  },
-}));
+function TestTimetable2() {
+    const [activeStep, setActiveStep] = useState(0)
 
-export default function TimeTable({ timetable }) {
-  const classes = useStyles();
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  return timetable ? (
-    <div className={classes.root} style={{ marginTop: "60px" }}>
-      <Tabs
-        orientation="vertical"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        className="tabs"
-        scrollButtons="on"
-      >
-        <Tab label="Mon  " className="Tabstyle" />
-        <Tab label="Tue  " className="Tabstyle" />
-        <Tab label="Wed  " className="Tabstyle" />
-        <Tab label="Thu  " className="Tabstyle" />
-        <Tab label="Fri  " className="Tabstyle" />
-        <Tab label="Sun  " className="Tabstyle" />
-      </Tabs>
-      <TabPanel value={value} index={0} className="TabPanel">
-        <Lectures lecture={timetable["Mon"]} />
-      </TabPanel>
-      <TabPanel value={value} index={1} className="TabPanel">
-        <Lectures lecture={timetable["Tue"]} />
-      </TabPanel>
-      <TabPanel value={value} index={2} className="TabPanel">
-        <Lectures lecture={timetable["Wed"]} />
-      </TabPanel>
-      <TabPanel value={value} index={3} className="TabPanel">
-        <Lectures lecture={timetable["Thu"]} />
-      </TabPanel>
-      <TabPanel value={value} index={4} className="TabPanel">
-        <Lectures lecture={timetable["Fri"]} />
-      </TabPanel>
-      <TabPanel value={value} index={5} className="TabPanel">
-        <Lectures lecture={timetable["Sun"]} />
-      </TabPanel>
-    </div>
-  ) : null;
+    const handleStep = (step) => () => {
+        setActiveStep(step);
+    };
+    const arr = [0,1,2,3,4,5]
+    return (
+        <Container>
+            <Stepper orientation="vertical" nonLinear 
+            style={{top: "60px", position: "relative", width: "40px", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "transparent"}}
+            connector={<Connector/>}
+            activeStep={activeStep}>
+                {arr.map(elm => (
+                    <Step>
+                        <StepLabel StepIconComponent={Icon} onClick={handleStep(elm)}/>
+                    </Step>
+                ))}
+            </Stepper>
+        </Container>
+    )
 }
+
+export default TestTimetable2

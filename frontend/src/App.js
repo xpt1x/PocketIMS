@@ -4,7 +4,7 @@ import Dashboard from "./components/Dashboard";
 import Message from "./components/common/Message";
 import { Router } from "@reach/router";
 import Attendance from "./components/Attendance";
-import TimeTable from "./components/TimeTable";
+// import TimeTable from "./components/TimeTable";
 import SubjectDetail from "./components/SubjectDetail";
 import "./styles/main.scss";
 import FullReport from "./components/FullReport";
@@ -14,7 +14,7 @@ import {
   MuiThemeProvider,
 } from "@material-ui/core";
 import { blue, deepOrange } from "@material-ui/core/colors";
-import TestTimetable2 from './components/TestTimetable2'
+import TestTimetable2 from './components/TimeTable'
 
 
 function App() {
