@@ -14,12 +14,13 @@ const useColorlibStepIconStyles = makeStyles({
       justifyContent: 'center',
       alignItems: 'center',
       cursor: "pointer",
-      transition: "width 0.5s, height 0.5s"
+      transition: "width 0.5s, height 0.5s, box-shadow 0.5s, background-color 0.5s"
     },
     active: {
-      width: 60,
-      height: 60,
+      width: 50,
+      height: 50,
       backgroundColor: "#ff5722",
+      boxShadow: "0px 0px 20px #ff5722"
     }
 });
 
@@ -40,9 +41,17 @@ function Connector(){
     )
 }
 
+function getPresentDay(){
+  let date = new Date();
+  let day = date.getDay();
+  if(day == 7){
+    day -= 1;
+  }
+  return day-1;
+}
 
 function TestTimetable2() {
-    const [activeStep, setActiveStep] = useState(0)
+    const [activeStep, setActiveStep] = useState(getPresentDay())
 
     const handleStep = (step) => () => {
         setActiveStep(step);
@@ -55,7 +64,7 @@ function TestTimetable2() {
             connector={<Connector/>}
             activeStep={activeStep}>
                 {arr.map(elm => (
-                    <Step>
+                    <Step key={elm}>
                         <StepLabel StepIconComponent={Icon} onClick={handleStep(elm)}/>
                     </Step>
                 ))}
