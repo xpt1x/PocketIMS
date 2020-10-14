@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,23 +18,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Message({message}) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') 
       return;
     setOpen(false);
   };
 
-  var variant = 'warning'
+  var variant_text = 'warning'
   switch (message.variant) {
     case -1:
-      variant = 'error'
+      variant_text = 'error'
       break;
     case 1:
-      variant = 'success'
+      variant_text = 'success'
       break;
     case 0:
-      variant = 'info'
+      variant_text = 'info'
       break;
     default:
       break;
@@ -42,8 +42,8 @@ export default function Message({message}) {
 
   return (
     <div className={classes.root}>
-      <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left'}} open={open} autoHideDuration={5000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={variant}>
+      <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={open} autoHideDuration={5000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={variant_text}>
           {message.message}
         </Alert>
       </Snackbar>
