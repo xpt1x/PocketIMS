@@ -164,6 +164,7 @@ function SubjectDetail(props) {
             subject={props.subject}
           />
         </Container>
+        <Container>
         <List>
           <ListItem>
             <ListItemText
@@ -372,6 +373,8 @@ function SubjectDetail(props) {
             />
           </ListItem>
         </List>
+        </Container>
+        
         <Tooltip title="View full report">
           {props.fullAttendance === undefined ? (
             <Fab color="primary" className={classes.fab}>
@@ -396,7 +399,7 @@ function SubjectDetail(props) {
           )}
         </Tooltip>
       </Dialog>
-      {props.children}
+      {props.children}      
     </>
   ) : null;
 }

@@ -14,6 +14,8 @@ import {
   MuiThemeProvider,
 } from "@material-ui/core";
 import { blue, deepOrange } from "@material-ui/core/colors";
+import TestTimetable2 from './components/TestTimetable2'
+
 
 function App() {
   const [attendance, setAttendance] = useState(undefined);
@@ -66,7 +68,8 @@ function App() {
               </SubjectDetail>
             </Attendance>
             
-            <TimeTable path="timetable" timetable={timetable} />
+            {/* <TimeTable path="timetable" timetable={timetable} /> */}
+            <TestTimetable2 path="timetable" timetable={timetable} />
 
           </Dashboard>
 
