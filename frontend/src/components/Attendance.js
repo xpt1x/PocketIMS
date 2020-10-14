@@ -14,7 +14,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
-import Loading from "./Loading";
+import Loading from "./common/Loading";
 
 const circularProgressTheme = createMuiTheme({
   palette: {
@@ -117,9 +117,9 @@ export default function Attendance({ attendance, setSubject, children }) {
     <>
       {children}
       {attendance ? (
-        <List component="ul" style={{ top: "60px" }}>
+        <List component="ul" style={{ top: "60px", display: "flex", flexDirection: "column", alignItems: "center"}}>
           {attendance.sort(compareTitles).map((subject) => (
-            <ListItem key={subject.Code}>
+            <ListItem key={subject.Code} style={{maxWidth: "860px", marginBottom: "20px"}}>
               <CardActionArea>
                 <Card
                   className={classes.fullWidth}
@@ -127,6 +127,7 @@ export default function Attendance({ attendance, setSubject, children }) {
                     cardClickHandler(subject);
                   }}
                   elevation={10}
+                  style={{marginBottom: "0"}}
                 >
                   <Box
                     className={

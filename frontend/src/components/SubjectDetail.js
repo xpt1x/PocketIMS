@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -117,7 +117,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function SubjectDetail(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
     //props.close({});

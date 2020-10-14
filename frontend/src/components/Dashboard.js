@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { navigate } from "@reach/router";
 // import Skeleton from "@material-ui/lab/Skeleton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -35,8 +35,8 @@ export default function Dashboard({
     0: "attendance",
     1: "timetable",
   };
-  const [value, setValue] = React.useState(0);
-  const [menu, setMenu] = React.useState(false);
+  const [value, setValue] = useState(0);
+  const [menu, setMenu] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
