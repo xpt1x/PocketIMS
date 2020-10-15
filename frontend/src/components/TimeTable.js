@@ -115,6 +115,7 @@ function TimeTable(props) {
   const [activeStep, setActiveStep] = useState(getPresentDay());
   const styles = useStyles();
   const handleStep = (step) => () => {
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
     setActiveStep(step - 1);
   };
 
