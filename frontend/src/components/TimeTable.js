@@ -4,15 +4,16 @@ import {
   Stepper,
   StepLabel,
   Container,
-  Typography,
   Card,
   CardHeader,
   Avatar,
   CardContent,
+  Chip,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Loading from "./common/Loading";
+import { deepOrange } from "@material-ui/core/colors";
 
 const useColorlibStepIconStyles = makeStyles({
   root: {
@@ -73,6 +74,10 @@ const useStyles = makeStyles((theme) => ({
     width: "2px",
     height: "60px",
     backgroundColor: "#ededed",
+  },
+  orange: {
+    color: theme.palette.getContrastText(deepOrange[500]),
+    backgroundColor: deepOrange[500],
   },
 }));
 
@@ -147,18 +152,26 @@ function TimeTable(props) {
                 <CardContent>No classes on this day</CardContent>
               </Card>
             );
+
           const sub = props.timetable[Days[activeStep + 1]][key];
           return sub !== null ? (
             <Card key={id} className={styles.card}>
               <CardHeader
                 title={sub.title}
                 subheader={sub.teacher}
-                avatar={<Avatar>{sub.title[0]}</Avatar>}
+                avatar={
+                  <Avatar className={styles.orange}>{sub.title[0]}</Avatar>
+                }
               />
               <CardContent>
-                <Typography variant="body2" color="textPrimary">
-                  Timings: {key} - [{sub.type}]
-                </Typography>
+                <Chip label={key} />
+                <Chip
+                  style={{ marginLeft: "2%" }}
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  label={sub.type}
+                />
               </CardContent>
             </Card>
           ) : (
