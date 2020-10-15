@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import SignIn from "./components/SignIn";
 import Dashboard from "./components/Dashboard";
 import Message from "./components/common/Message";
 import { Router } from "@reach/router";
 import Attendance from "./components/Attendance";
-import TimeTable from "./components/TimeTable";
+// import TimeTable from "./components/TimeTable";
 import SubjectDetail from "./components/SubjectDetail";
 import "./styles/main.scss";
 import FullReport from "./components/FullReport";
@@ -14,6 +14,7 @@ import {
   MuiThemeProvider,
 } from "@material-ui/core";
 import { blue, deepOrange } from "@material-ui/core/colors";
+import TimeTable from "./components/TimeTable";
 
 function App() {
   const [attendance, setAttendance] = useState(undefined);
@@ -59,15 +60,27 @@ function App() {
           <SignIn path="/" {...globalProps} />
 
           <Dashboard path="dashboard" {...dashboardProps}>
-
-            <Attendance path="attendance" attendance={attendance} setSubject={setSubject}>
-              <SubjectDetail path=":subjectcode" subject={subject} fullAttendance={fullAttendance} drawerHandler={setDrawerOpen}>
-                <FullReport path="report" data={fullAttendance} close={setDrawerOpen}/>
+            <Attendance
+              path="attendance"
+              attendance={attendance}
+              setSubject={setSubject}
+            >
+              <SubjectDetail
+                path=":subjectcode"
+                subject={subject}
+                fullAttendance={fullAttendance}
+                drawerHandler={setDrawerOpen}
+              >
+                <FullReport
+                  path="report"
+                  data={fullAttendance}
+                  close={setDrawerOpen}
+                />
               </SubjectDetail>
             </Attendance>
-            
-            <TimeTable path="timetable" timetable={timetable} />
 
+            {/* <TimeTable path="timetable" timetable={timetable} /> */}
+            <TimeTable path="timetable" timetable={timetable} />
           </Dashboard>
 
           {/* Create a not found page for a non func route */}
