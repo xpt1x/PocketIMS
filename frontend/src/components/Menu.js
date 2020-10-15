@@ -26,6 +26,9 @@ export default function Menu(props) {
   const logout = () => {
     localStorage.clear();
     props.setMessage({ message: "Logout successful", variant: 1 });
+    props.setAttendance(undefined)
+    props.setFullAttendance(undefined)
+    props.setTimetable(undefined)
     navigate("/");
   };
 

@@ -84,6 +84,9 @@ export default function Dashboard({
               setMessage={setMessage}
               open={menu}
               onclose={() => setMenu(false)}
+              setAttendance={setAttendance}
+              setFullAttendance={setFullAttendance}
+              setTimetable={setTimetable}
             />
             <Tabs
               value={value}
