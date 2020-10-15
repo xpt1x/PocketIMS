@@ -14,7 +14,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Loading from "./common/Loading";
 import { flexbox, style } from "@material-ui/system";
-import "./TimeTable.scss"
 
 const useColorlibStepIconStyles = makeStyles({
   root: {
