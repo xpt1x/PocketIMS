@@ -3,6 +3,7 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
+  Link
 } from "@material-ui/core";
 import { create } from "apisauce";
 import React, { useEffect, useState } from "react";
@@ -32,9 +33,7 @@ export default function About(props) {
           </Typography>
           <Typography gutterBottom>
             Github Repository:{" "}
-            <Typography color="textSecondary">
-              https://github.com/xpt1x/PocketIMS
-            </Typography>
+            <Link href="https://github.com/xpt1x/PocketIMS" target="_blank">https://github.com/xpt1x/PocketIMS</Link>
           </Typography>
           <Typography variant="button" gutterBottom>
             <strong>Contributors</strong>
@@ -42,10 +41,11 @@ export default function About(props) {
 
           <AvatarGroup style={{ marginTop: "1%" }} max={5}>
             {contributors !== undefined
-              ? contributors.map((contributor) => (
+              ? contributors.map((contributor, idx) => (
                   <Avatar
                     alt={contributor.login}
                     src={contributor.avatar_url}
+                    key={idx}
                   />
                 ))
               : null}

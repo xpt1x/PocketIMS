@@ -87,7 +87,7 @@ function SignIn({ message, setMessage }) {
 
   useEffect(() => {
     if (localStorage.getItem("uid")) {
-      setMessage({ message: "You are already on dashboard", variant: 0 });
+      setMessage({ message: "Welcome! You are now on dashboard", variant: 0 });
       navigate("dashboard", { replace: true });
     }
   });

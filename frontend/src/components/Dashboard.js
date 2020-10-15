@@ -70,7 +70,7 @@ export default function Dashboard({
     <>
       <div className={classes.root}>
         <AppBar position="fixed">
-          <Toolbar variant="dense">
+          <Toolbar variant="dense" style={{display: "flex"}}>
             <IconButton
               edge="start"
               className={classes.menuButton}
@@ -84,11 +84,14 @@ export default function Dashboard({
               setMessage={setMessage}
               open={menu}
               onclose={() => setMenu(false)}
+              setAttendance={setAttendance}
+              setFullAttendance={setFullAttendance}
+              setTimetable={setTimetable}
             />
             <Tabs
               value={value}
               onChange={handleChange}
-              style={{ color: "black" }}
+              style={{ color: "white", flex: "1", display: "flex", justifyContent: "center" }}
               centered
             >
               <Tab label="Attendance" />
