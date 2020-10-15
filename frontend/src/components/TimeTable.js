@@ -13,7 +13,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Loading from "./common/Loading";
-import { style } from "@material-ui/system";
+import { flexbox, style } from "@material-ui/system";
 
 const useColorlibStepIconStyles = makeStyles({
   root: {
@@ -27,32 +27,66 @@ const useColorlibStepIconStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
     cursor: "pointer",
-    transition:
-      "width 0.5s, height 0.5s, box-shadow 0.5s, background-color 0.5s",
+    transition: ".2s",
   },
   active: {
-    width: 50,
-    height: 50,
+    transform: "scale(1.5)",
     backgroundColor: "#ff5722",
-    boxShadow: "0px 0px 20px #ff5722",
+    boxShadow: "0px 0px 20px #ff5744aa",
+    transition: ".2s"
   },
 });
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "300px",
+    // width: "300px",
   },
+
   content: {
-    marginTop: theme.spacing(-1),
+    // marginTop: theme.spacing(-1),
   },
+
   div: {
-    top: "80px",
-    width: "300px",
-    marginLeft: "15%",
-    position: "absolute",
-    display: "flex",
-    justifyContent: "left",
+    // top: "80px",
+    // width: "300px",
+    // marginLeft: "15%",
+    // position: "absolute",
+    // display: "flex",
+    // justifyContent: "left",
   },
+
+  time_table: {
+    position: "relative",
+    top: "80px",
+    maxWidth: "860px",
+    display: "flex",
+    flexDirection: "row",
+  },
+
+  stepper: {
+    display: "flex",
+    marginRight: "2%",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "transparent",
+    paddingLeft: "0",
+  },
+
+  step: {
+    width: "40px",
+    height: "40px",
+  },
+
+  card_wrapper: {
+    flex: "1",
+  },
+
+  card: {
+    marginBottom: "20px",
+    boxShadow: "0px 6px 6px -3px rgba(0,0,0,0.2), 0px 10px 14px 1px rgba(0,0,0,0.14), 0px 4px 18px 3px rgba(0,0,0,0.12)",
+  }
+
 }));
 
 function Icon(props) {
@@ -76,15 +110,17 @@ function Icon(props) {
     </div>
   );
 }
+
+
 function Connector() {
   return (
     <div
       style={{
         width: "2px",
         height: "60px",
-        backgroundColor: "#fff",
-        position: "relative",
-        left: "-4px",
+        backgroundColor: "#ededed",
+        // position: "relative",
+        // left: "-4px",
       }}
     ></div>
   );
@@ -104,37 +140,78 @@ function TimeTable(props) {
   };
   const arr = [1, 2, 3, 4, 5, 6, 7];
   const day_map = { Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 };
+
   return props.timetable ? (
-    <Container>
+    <Container className={styles.time_table}>
       <Stepper
         orientation="vertical"
         nonLinear
-        style={{
-          top: "60px",
-          position: "relative",
-          width: "40px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "transparent",
-        }}
         connector={<Connector />}
         activeStep={activeStep}
+        className={styles.stepper}
       >
         {arr.map((elm) => (
-          <Step key={elm}>
+          <Step key={elm} className={styles.step}>
             <StepLabel StepIconComponent={Icon} onClick={handleStep(elm)} />
           </Step>
         ))}
       </Stepper>
-      <div className={styles.div}>
-        <Card className={styles.root}>
+      <div className={styles.card_wrapper}>
+        <Card className={styles.card}>
           <CardHeader
             title="Subject Name"
             subheader="Teacher name"
             avatar={<Avatar>A</Avatar>}
           />
-          <CardContent className={styles.content}>
+          <CardContent className="">
+            <Typography variant="body2" color="textSecondary">
+              Timings: XYZ - [L]
+            </Typography>
+          </CardContent>
+        </Card>
+        <Card className={styles.card}>
+          <CardHeader
+            title="Subject Name"
+            subheader="Teacher name"
+            avatar={<Avatar>A</Avatar>}
+          />
+          <CardContent className="">
+            <Typography variant="body2" color="textSecondary">
+              Timings: XYZ - [L]
+            </Typography>
+          </CardContent>
+        </Card>
+        <Card className={styles.card}>
+          <CardHeader
+            title="Subject Name"
+            subheader="Teacher name"
+            avatar={<Avatar>A</Avatar>}
+          />
+          <CardContent className="">
+            <Typography variant="body2" color="textSecondary">
+              Timings: XYZ - [L]
+            </Typography>
+          </CardContent>
+        </Card>
+        <Card className={styles.card}>
+          <CardHeader
+            title="Subject Name"
+            subheader="Teacher name"
+            avatar={<Avatar>A</Avatar>}
+          />
+          <CardContent className="">
+            <Typography variant="body2" color="textSecondary">
+              Timings: XYZ - [L]
+            </Typography>
+          </CardContent>
+        </Card>
+        <Card className={styles.card}>
+          <CardHeader
+            title="Subject Name"
+            subheader="Teacher name"
+            avatar={<Avatar>A</Avatar>}
+          />
+          <CardContent className="">
             <Typography variant="body2" color="textSecondary">
               Timings: XYZ - [L]
             </Typography>
