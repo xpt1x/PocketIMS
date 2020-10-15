@@ -5,7 +5,11 @@ import { Card } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: "relative",
     marginTop: "60px",
+    maxWidth: "860px",
+    left: "50%",
+    transform: "translatex(-50%)",
   }
 }));
 
@@ -25,7 +29,7 @@ export default function ProgressSkeleton(){
             <Skeleton variant="text" style={{"height" : "20px", "width" : "35%"}} />
             <Skeleton variant="text" style={{"height" : "25px", "width" : "20%"}} />
           </div>
-          <div style={{ float: "right", top: "50%", transform: "translateY(-60%)", marginRight: "10px"}}>
+          <div style={{ float: "right", top: "50%", transform: "translateY(-66%)", marginRight: "34px"}}>
             <Skeleton variant="circle" width={90} height={90} />
           </div>
         </div>
