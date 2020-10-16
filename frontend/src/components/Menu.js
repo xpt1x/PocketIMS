@@ -46,7 +46,7 @@ export default function Menu(props) {
               </Typography>
             </ListItem>
             <Divider />
-            <ListItem button>
+            <ListItem button disabled>
               <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
