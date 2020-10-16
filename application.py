@@ -7,6 +7,11 @@ app = Flask(__name__)
 CORS(app)
 
 
+@app.route('/')
+def home():
+    return 'OK!'
+
+
 @app.route('/api/signin', methods=['POST'])
 def signin():
 
