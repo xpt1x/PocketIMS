@@ -26,9 +26,9 @@ export default function Menu(props) {
   const logout = () => {
     localStorage.clear();
     props.setMessage({ message: "Logout successful", variant: 1 });
-    props.setAttendance(undefined)
-    props.setFullAttendance(undefined)
-    props.setTimetable(undefined)
+    props.setAttendance(undefined);
+    props.setFullAttendance(undefined);
+    props.setTimetable(undefined);
     navigate("/");
   };
 
@@ -42,11 +42,11 @@ export default function Menu(props) {
             <ListItem>
               <Typography color="textSecondary" variant="subtitle1">
                 {" "}
-                PocketIMS v{version}{" "}
+                PocketIMS Beta v{version}{" "}
               </Typography>
             </ListItem>
             <Divider />
-            <ListItem button>
+            <ListItem button disabled>
               <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
