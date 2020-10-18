@@ -31,12 +31,10 @@ def signin():
 
 @app.route('/api/attendance', methods=['POST'])
 def get_minimal_attendance():
-
     if not request.form.get('uid'):
         return jsonify({'error': 'UID not provided'})
     if not request.form.get('password'):
         return jsonify({'error': 'Password not provided'})
-
     try:
         my_acc = SessionUIMS(request.form.get(
             'uid'), request.form.get('password'))
@@ -51,15 +49,12 @@ def get_minimal_attendance():
     else:
         return jsonify(subjects)
 
-
 @app.route('/api/fullattendance', methods=['POST'])
 def get_full_attendance():
-
     if not request.form.get('uid'):
         return jsonify({'error': 'UID not provided'})
     if not request.form.get('password'):
         return jsonify({'error': 'Password not provided'})
-
     try:
         my_acc = SessionUIMS(request.form.get(
             'uid'), request.form.get('password'))

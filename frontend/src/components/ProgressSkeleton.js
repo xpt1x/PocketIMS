@@ -24,9 +24,9 @@ export default function ProgressSkeleton(){
         <Card key = {elm} style={{"marginTop": "20px", "height" : "160px", "width" : "100%"}}>
         <div >
           <div style={{ marginLeft: "10px", transform: "translateY(30%)"}} >
-            <Skeleton variant="text" style={{"height" : "30px", "width" : "70%"}} />
-            <Skeleton variant="text" style={{"height" : "20px", "width" : "35%"}} />
-            <Skeleton variant="text" style={{"height" : "20px", "width" : "35%"}} />
+            <Skeleton variant="text" style={{"height" : "30px", "width" : "50%"}} />
+            <Skeleton variant="text" style={{"height" : "20px", "width" : "25%"}} />
+            <Skeleton variant="text" style={{"height" : "20px", "width" : "30%"}} />
             <Skeleton variant="text" style={{"height" : "25px", "width" : "20%"}} />
           </div>
           <div style={{ float: "right", top: "50%", transform: "translateY(-66%)", marginRight: "34px"}}>
