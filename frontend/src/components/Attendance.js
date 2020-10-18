@@ -120,7 +120,7 @@ export default function Attendance({ attendance, setSubject, children }) {
   return (
     <>
       {children}
-      {attendance ? (
+      {false ? (
         <List
           component="ul"
           style={{
