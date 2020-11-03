@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 export default function Menu(props) {
   const logout = () => {
     localStorage.clear();
-    props.setMessage({ message: "Logout successful", variant: 1 });
+    props.enqueueSnackbar("Logout successful", {variant: 'success' });
     props.setAttendance(undefined);
     props.setFullAttendance(undefined);
     props.setTimetable(undefined);

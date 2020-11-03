@@ -15,14 +15,20 @@ import Api from "../ApiLayer/Api";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
+    <>
+    <Typography variant="body2" color="textSecondary" align="right">
+      <strong>{"PocketIMS"}</strong>{" is an "}
       <Link color="inherit" href="https://github.com/xpt1x/PocketIMS/">
-        PocketIMS
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
+        open source project
+      </Link>
     </Typography>
+    <Typography variant="body2" color="textSecondary" align="right">
+      {"Powered by "}
+      <Link color="inherit" href="https://github.com/cu-unofficial/uims-api">
+        UIMS-API
+      </Link>
+    </Typography>
+    </>
   );
 }
 
@@ -46,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignIn({ message, setMessage }) {
+function SignIn({ enqueueSnackbar }) {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
@@ -65,21 +71,21 @@ function SignIn({ message, setMessage }) {
       setLoading(false);
       if (!response.ok) {
         console.log(response.problem);
-        setMessage({ message: response.problem, variant: -1 });
+        enqueueSnackbar(response.problem, {variant: 'error'});
       } else {
         // response ok
         if (response.data.error) {
           // project api has responded with an error, set an error state
-          setMessage({ message: response.data.error, variant: -1 });
+          enqueueSnackbar(response.data.error, {variant: 'error' });
           console.log(response.data.error);
         } else if (response.data.success) {
           // correct response
-          setMessage({ message: "Login successful", variant: 1 });
+          enqueueSnackbar("Login successful", {variant: 'success' });
           localStorage.setItem("uid", uid);
           localStorage.setItem("password", pass);
           navigate("dashboard", { replace: true });
         } else {
-          setMessage({ message: "Server Issue", variant: -1 });
+          enqueueSnackbar("Server Issue", { variant: -1 });
         }
       }
     });
@@ -87,7 +93,7 @@ function SignIn({ message, setMessage }) {
 
   useEffect(() => {
     if (localStorage.getItem("uid")) {
-      setMessage({ message: "Welcome! You are now on dashboard", variant: 0 });
+      enqueueSnackbar("Welcome! You are now on dashboard", {variant: 'info' });
       navigate("dashboard", { replace: true });
     }
   });
