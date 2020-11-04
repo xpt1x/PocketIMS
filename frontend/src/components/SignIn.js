@@ -12,25 +12,8 @@ import Container from "@material-ui/core/Container";
 import { navigate } from "@reach/router";
 import Loading from "./common/Loading";
 import Api from "../ApiLayer/Api";
+import { Chip, Grid } from "@material-ui/core";
 
-function Copyright() {
-  return (
-    <>
-    <Typography variant="body2" color="textSecondary" align="right">
-      <strong>{"PocketIMS"}</strong>{" is an "}
-      <Link color="inherit" href="https://github.com/xpt1x/PocketIMS/">
-        open source project
-      </Link>
-    </Typography>
-    <Typography variant="body2" color="textSecondary" align="right">
-      {"Powered by "}
-      <Link color="inherit" href="https://github.com/cu-unofficial/uims-api">
-        UIMS-API
-      </Link>
-    </Typography>
-    </>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  info: {
+    marginRight: theme.spacing(1.5)
   },
 }));
 
@@ -145,7 +131,19 @@ function SignIn({ enqueueSnackbar }) {
         </form>
       </div>
       <Box mt={8}>
-        <Copyright />
+        <Grid container justify="flex-end">
+        <Chip
+          label="PocketIMS is an open source project"
+          variant="outlined"
+          onClick={() =>  window.open('https://github.com/xpt1x/PocketIMS/', "_blank")}
+        />
+        <Typography className={classes.info} variant="overline" color="textSecondary" inline align="justify">
+          {"Powered by "}
+          <Link color="inherit" href="https://github.com/cu-unofficial/uims-api" target="_blank">
+            UIMS-API
+          </Link>
+        </Typography>
+        </Grid>
       </Box>
     </Container>
   );
