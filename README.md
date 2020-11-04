@@ -5,7 +5,7 @@ Appliation has a minimal UI built with ReactJS, MaterialUI. User's data is not k
 
 ## Test Run
 
-### **Stable**: https://pocketims.snapatd.tech  
+### **Stable**: https://ims.snapatd.tech  
 **Beta**: https://beta.snapatd.tech
 
 ## Contributions
