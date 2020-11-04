@@ -1,9 +1,16 @@
+import { navigate } from "@reach/router";
 import Api from "./Api";
+
+const logout = () => {
+  localStorage.clear();
+  navigate("/");
+};
 
 export default function FetchData({
   setAttendance,
   setFullAttendance,
   setTimetable,
+  enqueueSnackbar
 }) {
   const uid = localStorage.getItem("uid");
   const pass = localStorage.getItem("password");
@@ -18,7 +25,9 @@ export default function FetchData({
       // response ok
       if (response.data.error) {
         // uims api has responded with an error, set an error state
+        enqueueSnackbar(`${response.data.error} Visit UIMS to resolve`, {variant: 'error'})
         console.log(response.data.error);
+        logout()
       } else {
         // correct response
         setAttendance(response.data);
@@ -35,7 +44,9 @@ export default function FetchData({
       // response ok
       if (response.data.error) {
         // project api has responded with an error, set an error state
+        enqueueSnackbar(`${response.data.error} Visit UIMS to resolve`, {variant: 'error'})
         console.log(response.data.error);
+        logout()
       } else {
         // correct response
         setFullAttendance(response.data);
@@ -52,7 +63,9 @@ export default function FetchData({
       // response ok
       if (response.data.error) {
         // project api has responded with an error, set an error state
+        enqueueSnackbar(`${response.data.error} Visit UIMS to resolve`, {variant: 'error'})
         console.log(response.data.error);
+        logout()
       } else {
         // correct response
         setTimetable(response.data);

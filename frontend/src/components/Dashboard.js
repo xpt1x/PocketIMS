@@ -11,7 +11,6 @@ import {
   IconButton,
   makeStyles,
 } from "@material-ui/core";
-// import SwipeableViews from 'react-swipeable-views'
 import Menu from "./Menu";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +26,7 @@ export default function Dashboard({
   setAttendance,
   setFullAttendance,
   setTimetable,
-  setMessage,
+  enqueueSnackbar,
   children,
 }) {
   const classes = useStyles();
@@ -61,16 +60,16 @@ export default function Dashboard({
       setTimetable(JSON.parse(localStorage.getItem("timetable")));
     } else {
       // cache expired, fetch new
-      FetchData({ setAttendance, setFullAttendance, setTimetable });
+      FetchData({ setAttendance, setFullAttendance, setTimetable, enqueueSnackbar });
     }
     navigate("/dashboard/attendance");
-  }, [setAttendance, setFullAttendance, setTimetable]);
+  }, [setAttendance, setFullAttendance, setTimetable, enqueueSnackbar]);
 
   return (
     <>
       <div className={classes.root}>
         <AppBar position="fixed">
-          <Toolbar variant="dense">
+          <Toolbar variant="dense" style={{display: "flex"}}>
             <IconButton
               edge="start"
               className={classes.menuButton}
@@ -81,14 +80,17 @@ export default function Dashboard({
               <MenuIcon />
             </IconButton>
             <Menu
-              setMessage={setMessage}
+              enqueueSnackbar={enqueueSnackbar}
               open={menu}
               onclose={() => setMenu(false)}
+              setAttendance={setAttendance}
+              setFullAttendance={setFullAttendance}
+              setTimetable={setTimetable}
             />
             <Tabs
               value={value}
               onChange={handleChange}
-              style={{ color: "black" }}
+              style={{ color: "white", flex: "1", display: "flex", justifyContent: "center" }}
               centered
             >
               <Tab label="Attendance" />
