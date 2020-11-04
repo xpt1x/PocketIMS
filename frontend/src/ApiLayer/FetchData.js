@@ -56,22 +56,32 @@ export default function FetchData({
     }
   });
 
-  Api.post("/timetable", formdata).then((response) => {
-    if (!response.ok) {
-      console.log(response.problem);
-    } else {
-      // response ok
-      if (response.data.error) {
-        // project api has responded with an error, set an error state
-        enqueueSnackbar(`${response.data.error} Visit UIMS to resolve`, {variant: 'error'})
-        console.log(response.data.error);
-        logout()
+  if(
+    !localStorage.getItem("timetable") ||
+    Date.now() - parseInt(localStorage.getItem("TTtimestamp")) >
+    1000 * 60 * 60 * 24
+  )
+  { 
+    Api.post("/timetable", formdata).then((response) => {
+      if (!response.ok) {
+        console.log(response.problem);
       } else {
-        // correct response
-        setTimetable(response.data);
-        localStorage.setItem("timetable", JSON.stringify(response.data));
-        localStorage.setItem("timestamp", Date.now());
+        // response ok
+        if (response.data.error) {
+          // project api has responded with an error, set an error state
+          enqueueSnackbar(`${response.data.error} Visit UIMS to resolve`, {variant: 'error'})
+          console.log(response.data.error);
+          logout()
+        } else {
+          // correct response
+          setTimetable(response.data);
+          localStorage.setItem("timetable", JSON.stringify(response.data));
+          localStorage.setItem("TTtimestamp", Date.now());
+        }
       }
-    }
-  });
+    });
+  }
+  else{
+    setTimetable(JSON.parse(localStorage.getItem("timetable")));
+  }
 }
