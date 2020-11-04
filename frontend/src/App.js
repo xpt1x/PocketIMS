@@ -52,7 +52,7 @@ function App() {
       <MuiThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Router>
-          <SignIn path="/" {...globalProps} />
+          <SignIn path="/" default {...globalProps} />
 
           <Dashboard path="dashboard" {...dashboardProps}>
             <Attendance
