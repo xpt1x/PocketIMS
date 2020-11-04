@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Skeleton from '@material-ui/lab/Skeleton';
 import { Card } from "@material-ui/core";
@@ -15,9 +15,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProgressSkeleton(){
   const classes = useStyles();
-
   const skmap = [1, 2, 3, 4, 5];
 
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
+  
   return (
     <div className={classes.root}>
       {skmap.map( elm => (
