@@ -14,7 +14,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
-import ProgressSkeleton from "./ProgressSkeleton";
+import AttendanceSkeleton from "./AttendanceSkeleton";
 import Container from "@material-ui/core/Container"
 
 const circularProgressTheme = createMuiTheme({
@@ -203,7 +203,7 @@ export default function Attendance({ attendance, setSubject, children }) {
         </List>
       ) : (
         <Container>
-          <ProgressSkeleton />
+          <AttendanceSkeleton />
         </Container>
       )}
     </>

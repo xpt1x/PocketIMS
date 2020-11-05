@@ -12,8 +12,8 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import Loading from "./common/Loading";
 import { deepOrange } from "@material-ui/core/colors";
+import TimetableSkeleton from "./TimetableSkeleton.js"
 
 const useColorlibStepIconStyles = makeStyles({
   root: {
@@ -181,7 +181,7 @@ function TimeTable(props) {
       </div>
     </Container>
   ) : (
-    <Loading open={!props.timetable} />
+    <TimetableSkeleton />
   );
 }
 
