@@ -58,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
     top: "50%",
     right: "3%",
     transform: "translateY(-50%)",
+    marginTop: theme.spacing(2.5),
+    marginRight: theme.spacing(2)
   },
   colorGreen: {
     color: "#34bf58",
