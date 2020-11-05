@@ -5,16 +5,25 @@ import {
   Typography,
   Link,
   makeStyles,
+  IconButton,
 } from "@material-ui/core";
 import { create } from "apisauce";
 import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import CloseIcon from '@material-ui/icons/Close';
+
 
 const useStyles = makeStyles((theme) => ({
   large: {
     width: theme.spacing(7),
     height: theme.spacing(7),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
   },
 }));
 
@@ -34,7 +43,13 @@ export default function About(props) {
   return (
     <>
       <Dialog open={props.open} onClose={props.onclose}>
-        <DialogTitle>About PocketIMS</DialogTitle>
+        <DialogTitle>About PocketIMS
+          {props.onclose ? (
+          <IconButton aria-label="close" className={classes.closeButton} onClick={props.onclose}>
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+        </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
             PocketIMS is a better implementation of <Link color="inherit" href="https://github.com/cu-unofficial/uims-api" target="_blank">UIMS-API</Link>, this project picks up where <Link color="inherit" href="https://github.com/xpt1x/SnapAttendance/" target="_blank">SnapAttendance</Link> leaves off and aims to provide faster access to important modules from CUIMS with a better UI and UX.  
