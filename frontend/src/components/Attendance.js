@@ -16,7 +16,6 @@ import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
 import ProgressSkeleton from "./ProgressSkeleton";
 import Container from "@material-ui/core/Container"
-// import ProgressSkeleton from "./ProgressSkeleton"
 
 const circularProgressTheme = createMuiTheme({
   palette: {
@@ -50,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
   },
   boxRed: {
     borderColor: "#e05151",
+  },
+  boxOrange: {
+    borderColor: "#ffa100"
   },
   circular: {
     position: "absolute",
@@ -87,7 +89,7 @@ function CircularProgressWithLabel(props) {
           {props.lectures !== "0" ? (
             props.value
           ) : (
-            <Typography color="textSecondary"> NA </Typography>
+            <Typography variant="button" color="textSecondary"> <strong>NA</strong> </Typography>
           )}
         </Typography>
       </Box>
@@ -146,9 +148,9 @@ export default function Attendance({ attendance, setSubject, children }) {
                 >
                   <Box
                     className={
-                      parseFloat(subject.EligibilityPercentage) >= 75.0
-                        ? classes.boxGreen
-                        : classes.boxRed
+                      parseInt(subject.Total_Delv) === 0 ? classes.boxOrange : parseFloat(subject.EligibilityPercentage) >= 75.0
+                      ? classes.boxGreen
+                      : classes.boxRed
                     }
                     borderLeft={7}
                   >
