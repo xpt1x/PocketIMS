@@ -1,4 +1,3 @@
-import { navigate } from "@reach/router";
 import Api from "./Api";
 
 export default function FetchData({

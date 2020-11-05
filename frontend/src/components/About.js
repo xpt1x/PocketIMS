@@ -37,8 +37,8 @@ export default function About(props) {
         <DialogTitle>About PocketIMS</DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            PocketIMS is an <strong>open source</strong> project built using
-            ReactJS, MaterialUI and powered by requests, beautifulsoup.
+            PocketIMS is a better implementation of <Link color="inherit" href="https://github.com/cu-unofficial/uims-api" target="_blank">UIMS-API</Link>, this project picks up where <Link color="inherit" href="https://github.com/xpt1x/SnapAttendance/" target="_blank">SnapAttendance</Link> leaves off and aims to provide faster access to important modules from CUIMS with a better UI and UX.  
+            Appliation has a minimal UI built with ReactJS, MaterialUI. User's data is not kept on any server or DB, its stored locally on user's end
           </Typography>
           <Typography gutterBottom>
             Github Repository:{" "}
