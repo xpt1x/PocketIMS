@@ -26,7 +26,7 @@ def signin():
         if e.__class__ == IncorrectCredentialsError:
             return jsonify({'error': 'Invalid credentials'})
         else:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': 'Looks like this Module is inactive on UIMS'})
     else:
         return jsonify({'success': True})
 
@@ -44,14 +44,14 @@ def get_minimal_attendance():
         if e.__class__ == IncorrectCredentialsError:
             return jsonify({'error': 'Invalid credentials'})
         else:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': 'Looks like this Module is inactive on UIMS'})
     try:
         subjects = my_acc.attendance
     except Exception as e:
         if e.__class__ == UIMSInternalError:
             return jsonify({'error': 'UIMS Internal Failure'})
         else:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': 'Looks like this Module is inactive on UIMS'})
     else:
         return jsonify(subjects)
 
@@ -68,14 +68,14 @@ def get_full_attendance():
         if e.__class__ == IncorrectCredentialsError:
             return jsonify({'error': 'Invalid credentials'})
         else:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': 'Looks like this Module is inactive on UIMS'})
     try:
         subjects = my_acc.full_attendance
     except Exception as e:
         if e.__class__ == UIMSInternalError:
             return jsonify({'error': 'UIMS Internal Failure'})
         else:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': 'Looks like this Module is inactive on UIMS'})
     else:
         return jsonify(subjects)
 
@@ -94,14 +94,14 @@ def get_timetable():
         if e.__class__ == IncorrectCredentialsError:
             return jsonify({'error': 'Invalid credentials'})
         else:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': 'Looks like this Module is inactive on UIMS'})
     try:
         timetable = my_acc.timetable
     except Exception as e:
         if e.__class__ == UIMSInternalError:
             return jsonify({'error': 'UIMS Internal Failure'})
         else:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': 'Looks like this Module is inactive on UIMS'})
     else:
         return jsonify(timetable)
 
@@ -120,14 +120,14 @@ def get_announcement_page(page=1):
         if e.__class__ == IncorrectCredentialsError:
             return jsonify({'error': 'Invalid credentials'})
         else:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': 'Looks like this Module is inactive on UIMS'})
     try:
         ann_page = my_acc.annoucements(page)
     except Exception as e:
         if e.__class__ == UIMSInternalError:
             return jsonify({'error': 'UIMS Internal Failure'})
         else:
-            return jsonify({'error': str(e)})
+            return jsonify({'error': 'Looks like this Module is inactive on UIMS'})
     else:
         return jsonify(ann_page)
 
