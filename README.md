@@ -1,7 +1,7 @@
 # Pocket IMS
 
 PocketIMS is a better implementation of [UIMS-API](https://github.com/cu-unofficial/uims-api), this project picks up where [SnapAttendance](https://github.com/xpt1x/SnapAttendance/) leaves off and aims to provide faster access to important modules from CUIMS ( `Chandigarh University Information Management System`) with a better UI and UX.  
-Appliation has a minimal UI built with ReactJS, MaterialUI. User's data is not kept on any server or DB, its stored locally on user's end
+Application has a minimal UI built with ReactJS, MaterialUI. User's data is not kept on any server or DB, its stored locally on user's end
 
 ## Test Run
 

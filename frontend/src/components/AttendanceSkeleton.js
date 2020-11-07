@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ProgressSkeleton(){
+export default function AttendanceSkeleton(){
   const classes = useStyles();
   const skmap = [1, 2, 3, 4, 5];
 

@@ -14,9 +14,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
-import ProgressSkeleton from "./ProgressSkeleton";
+import AttendanceSkeleton from "./AttendanceSkeleton";
 import Container from "@material-ui/core/Container"
-// import ProgressSkeleton from "./ProgressSkeleton"
 
 const circularProgressTheme = createMuiTheme({
   palette: {
@@ -51,11 +50,16 @@ const useStyles = makeStyles((theme) => ({
   boxRed: {
     borderColor: "#e05151",
   },
+  boxOrange: {
+    borderColor: "#ffa100"
+  },
   circular: {
     position: "absolute",
     top: "50%",
     right: "3%",
     transform: "translateY(-50%)",
+    marginTop: theme.spacing(2.5),
+    marginRight: theme.spacing(2)
   },
   colorGreen: {
     color: "#34bf58",
@@ -87,7 +91,7 @@ function CircularProgressWithLabel(props) {
           {props.lectures !== "0" ? (
             props.value
           ) : (
-            <Typography color="textSecondary"> NA </Typography>
+            <Typography variant="button" color="textSecondary"> <strong>NA</strong> </Typography>
           )}
         </Typography>
       </Box>
@@ -146,9 +150,9 @@ export default function Attendance({ attendance, setSubject, children }) {
                 >
                   <Box
                     className={
-                      parseFloat(subject.EligibilityPercentage) >= 75.0
-                        ? classes.boxGreen
-                        : classes.boxRed
+                      parseInt(subject.Total_Delv) === 0 ? classes.boxOrange : parseFloat(subject.EligibilityPercentage) >= 75.0
+                      ? classes.boxGreen
+                      : classes.boxRed
                     }
                     borderLeft={7}
                   >
@@ -199,7 +203,7 @@ export default function Attendance({ attendance, setSubject, children }) {
         </List>
       ) : (
         <Container>
-          <ProgressSkeleton />
+          <AttendanceSkeleton />
         </Container>
       )}
     </>

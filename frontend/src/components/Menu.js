@@ -42,7 +42,7 @@ export default function Menu(props) {
             <ListItem>
               <Typography color="textSecondary" variant="subtitle1">
                 {" "}
-                PocketIMS Beta v{version}{" "}
+                PocketIMS v{version}{" "}
               </Typography>
             </ListItem>
             <Divider />
