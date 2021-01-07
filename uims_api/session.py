@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import re
-#from .exceptions import IncorrectCredentialsError, UIMSInternalError
+from .exceptions import IncorrectCredentialsError, UIMSInternalError
 
 BASE_URL = "https://uims.cuchd.in"
 AUTHENTICATE_URL = BASE_URL + "/uims/"
