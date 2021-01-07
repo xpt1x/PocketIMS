@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import re
-from .exceptions import IncorrectCredentialsError, UIMSInternalError
+#from .exceptions import IncorrectCredentialsError, UIMSInternalError
 
 BASE_URL = "https://uims.cuchd.in"
 AUTHENTICATE_URL = BASE_URL + "/uims/"
@@ -12,6 +12,8 @@ ENDPOINTS = {
     "Timetable": "frmMyTimeTable.aspx",
     "Announcements" : "StaffHome.aspx/DisplayAnnouncements"
 }
+# Workaround fix for new url
+ATTENDANCE_STATIC_EXTRA = "?type=etgkYfqBdH1fSfc255iYGw=="
 ERROR_HEAD = 'Whoops, Something broke!'
 headers = {'Content-Type': 'application/json'}
 
@@ -90,7 +92,7 @@ class SessionUIMS:
         # contents of the attendance page
         # These cookies contain encoded information about the current logged in UID whose
         # attendance information is to be fetched
-        response = requests.get(attendance_url, cookies=self.cookies)
+        response = requests.get(attendance_url+ATTENDANCE_STATIC_EXTRA, cookies=self.cookies)
         # Checking for error in response as status code returned is 200
         if(response.text.find(ERROR_HEAD) != -1):
             raise UIMSInternalError('UIMS internal error occured')
@@ -336,7 +338,7 @@ class SessionUIMS:
                         'body'       : msg_body,
                         'uploader'   : msg_uploader,
                         'attachment' : msg_attachment, 
-                        #'image'      : msg_image
+                        #'image'      : msg_i   `mage
             }
             announcements.append(msg_dict)
 
