@@ -15,7 +15,7 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
 import AttendanceSkeleton from "./AttendanceSkeleton";
-import Container from "@material-ui/core/Container"
+import Container from "@material-ui/core/Container";
 
 const circularProgressTheme = createMuiTheme({
   palette: {
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "#e05151",
   },
   boxOrange: {
-    borderColor: "#ffa100"
+    borderColor: "#ffa100",
   },
   circular: {
     position: "absolute",
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     right: "3%",
     transform: "translateY(-50%)",
     marginTop: theme.spacing(2.5),
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   colorGreen: {
     color: "#34bf58",
@@ -74,8 +74,7 @@ function CircularProgressWithLabel(props) {
   return (
     <Box className={classes.circular} position="relative" display="inline-flex">
       <ThemeProvider theme={circularProgressTheme}>
-        <CircularProgress size={80} variant="static" {...props} />
-        
+        <CircularProgress size={80} variant="determinate" {...props} />
       </ThemeProvider>
       <Box
         top={0}
@@ -91,7 +90,10 @@ function CircularProgressWithLabel(props) {
           {props.lectures !== "0" ? (
             props.value
           ) : (
-            <Typography variant="button" color="textSecondary"> <strong>NA</strong> </Typography>
+            <Typography variant="button" color="textSecondary">
+              {" "}
+              <strong>NA</strong>{" "}
+            </Typography>
           )}
         </Typography>
       </Box>
@@ -102,7 +104,6 @@ function CircularProgressWithLabel(props) {
 CircularProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
-
 
 export default function Attendance({ attendance, setSubject, children }) {
   const classes = useStyles();
@@ -150,9 +151,11 @@ export default function Attendance({ attendance, setSubject, children }) {
                 >
                   <Box
                     className={
-                      parseInt(subject.Total_Delv) === 0 ? classes.boxOrange : parseFloat(subject.EligibilityPercentage) >= 75.0
-                      ? classes.boxGreen
-                      : classes.boxRed
+                      parseInt(subject.Total_Delv) === 0
+                        ? classes.boxOrange
+                        : parseFloat(subject.EligibilityPercentage) >= 75.0
+                        ? classes.boxGreen
+                        : classes.boxRed
                     }
                     borderLeft={7}
                   >

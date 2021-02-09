@@ -13,7 +13,6 @@ import React, { useState } from "react";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GitHubIcon from "@material-ui/icons/GitHub";
-import { version } from "../serviceWorker";
 import About from "./About";
 
 const useStyles = makeStyles({
@@ -25,7 +24,7 @@ const useStyles = makeStyles({
 export default function Menu(props) {
   const logout = () => {
     localStorage.clear();
-    props.enqueueSnackbar("Logout successful", {variant: 'success' });
+    props.enqueueSnackbar("Logout successful", { variant: "success" });
     props.setAttendance(undefined);
     props.setFullAttendance(undefined);
     props.setTimetable(undefined);
@@ -42,7 +41,7 @@ export default function Menu(props) {
             <ListItem>
               <Typography color="textSecondary" variant="subtitle1">
                 {" "}
-                PocketIMS v{version}{" "}
+                PocketIMS
               </Typography>
             </ListItem>
             <Divider />
