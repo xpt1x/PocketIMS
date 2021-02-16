@@ -5,7 +5,7 @@ Application has a minimal UI built with ReactJS, MaterialUI. User's data is not 
 
 ## Test Run
 
-### **Stable**: https://ims.snapatd.tech  
+### **Stable**: https://snapatd.tech  
 **Beta**: https://beta.snapatd.tech
 
 ## Contributions
