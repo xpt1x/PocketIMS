@@ -21,3 +21,9 @@ $ npm run start
 $ cd ..
 $ export FLASK_APP=application.py
 $ flask run
+```
+# Screenshots
+<img src="Screenshots/login.PNG"></img>
+<img src="Screenshots/attendance.PNG"></img>
+<img src="Screenshots/detailedattendance.PNG"></img>
+<img src="Screenshots/timetable.PNG"></img>
