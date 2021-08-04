@@ -35,3 +35,4 @@ $ flask run
 
 ## Screenshots
 <img src="https://i.imgur.com/uFBj7Ev.png" width="270"><img src="https://i.imgur.com/DWCM65Q.png" width="270"><img src="https://i.imgur.com/pOaUxec.png" width="270"><img src="https://i.imgur.com/9tROy9n.png" width="270"><img src="https://i.imgur.com/1Mwd9Fr.png" width="270"><img src="https://i.imgur.com/L101qHX.png" width="270"><img src="https://i.imgur.com/SUEeBNc.png" width="270">
+
