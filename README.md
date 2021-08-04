@@ -5,8 +5,7 @@ Application has a minimal UI built with ReactJS, MaterialUI. User's data is not 
 
 ## Test Run
 
-### **Stable**: https://snapatd.tech  
-**Beta**: https://beta.snapatd.tech
+### **Stable**: https://jolly-blackwell-ad0195.netlify.app/    
 
 ## Contributions
 
