@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.js": "/PocketIMS/static/js/main.94a858da.chunk.js",
-    "runtime-main.js": "/PocketIMS/static/js/runtime-main.f834ca57.js",
-    "static/js/2.d0625e39.chunk.js": "/PocketIMS/static/js/2.d0625e39.chunk.js",
-    "index.html": "/PocketIMS/index.html",
-    "precache-manifest.dbfb45db885c26baaeb6be6ac2050341.js": "/PocketIMS/precache-manifest.dbfb45db885c26baaeb6be6ac2050341.js",
-    "service-worker.js": "/PocketIMS/service-worker.js",
-    "static/js/2.d0625e39.chunk.js.LICENSE.txt": "/PocketIMS/static/js/2.d0625e39.chunk.js.LICENSE.txt"
+    "main.js": "/pocketims/static/js/main.90c72600.chunk.js",
+    "runtime-main.js": "/pocketims/static/js/runtime-main.0ab88178.js",
+    "static/js/2.d0625e39.chunk.js": "/pocketims/static/js/2.d0625e39.chunk.js",
+    "index.html": "/pocketims/index.html",
+    "precache-manifest.109da0ff0215e821ef9d8c97f3f14254.js": "/pocketims/precache-manifest.109da0ff0215e821ef9d8c97f3f14254.js",
+    "service-worker.js": "/pocketims/service-worker.js",
+    "static/js/2.d0625e39.chunk.js.LICENSE.txt": "/pocketims/static/js/2.d0625e39.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.f834ca57.js",
+    "static/js/runtime-main.0ab88178.js",
     "static/js/2.d0625e39.chunk.js",
-    "static/js/main.94a858da.chunk.js"
+    "static/js/main.90c72600.chunk.js"
   ]
 }
