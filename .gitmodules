@@ -1,0 +1,3 @@
+[submodule "uims-api"]
+	path = uims-api
+	url = https://github.com/cu-unofficial/uims-api/
