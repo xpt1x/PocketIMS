@@ -21,10 +21,7 @@ $ git clone https://github.com/xpt1x/PocketIMS.git
 $ cd PocketIMS
 # install required backend dependencies
 $ pip install -r requirements.txt
-# install uims-api module
-$ cd uims-api && pip install .
 # start backend server
-$ cd ..
 $ export FLASK_APP=application.py
 $ flask run
 # installing frontend dependencies
